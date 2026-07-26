@@ -81,7 +81,7 @@ func set_refs(rooms):
 		var beast_amount = 0
 		
 		# 1. Check chance for a pack to spawn
-		if remaining_beasts > 0 and randf() < 1:
+		if remaining_beasts > 0 and randf() < 0.1:
 			var dynamic_beast_avg = float(remaining_beasts) / rooms_left
 			beast_amount = 1
 		

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cj6kd3ddfhyxo"]
 
-[ext_resource type="Script" uid="uid://b8xf2skv70pre" path="res://npcs/scripts/npc.gd" id="1_cqejd"]
+[ext_resource type="Script" uid="uid://b8xf2skv70pre" path="res://npcs/scripts/npc_scene.gd" id="1_cqejd"]
 [ext_resource type="Resource" uid="uid://7widhfo0mx3l" path="res://npcs/npc/wizard.tres" id="2_novm3"]
 [ext_resource type="FontFile" uid="uid://dvyk2goxxk460" path="res://ui/fonts/Silkscreen-Bold.ttf" id="3_mea8m"]
 [ext_resource type="Texture2D" uid="uid://dhq01bgrdismw" path="res://npcs/textures/wizard/EAST.png" id="3_novm3"]

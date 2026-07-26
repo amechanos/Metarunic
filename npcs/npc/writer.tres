@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://chy14gmi5inst"]
+
+[ext_resource type="Script" uid="uid://bbe2npxkft03w" path="res://npcs/scripts/npc.gd" id="1_flpvc"]
+[ext_resource type="Texture2D" uid="uid://dih75q3rvsl26" path="res://npcs/textures/writer/SOUTH.png" id="2_wb2ny"]
+
+[resource]
+script = ExtResource("1_flpvc")
+id = "Writer"
+name = "writer"
+texture = ExtResource("2_wb2ny")
