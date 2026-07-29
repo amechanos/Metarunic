@@ -7,6 +7,7 @@ const TILE_SIZE = 96
 const WIDTH = 8
 const HEIGHT = 6
 
+var fade_duration = WIDTH
 var grid: Array = []
 
 var found: int = 0
@@ -17,7 +18,7 @@ var shardLibrary: Dictionary = {}
 var assemblyState: Dictionary = {}
 
 var lostShards: Dictionary = {}
-var foundShards: Dictionary = {}
+var foundShards: Dictionary = {"1": "test", "2": "test", "3": "test", "4": "test", "5": "test",}
 
 var completedCards: Array = ["the_fool", "wheel_of_fortune"]
 

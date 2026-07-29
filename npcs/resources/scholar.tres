@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://c186vcp60smdj"]
+
+[ext_resource type="Script" uid="uid://bbe2npxkft03w" path="res://npcs/npc.gd" id="1_eqqj6"]
+[ext_resource type="Script" uid="uid://clbvldvn3slgw" path="res://npcs/scholar/scholar.gd" id="1_rq2v1"]
+[ext_resource type="Texture2D" uid="uid://c7qaheigkirri" path="res://npcs/scholar/textures/SOUTH.png" id="2_lwow0"]
+
+[resource]
+script = ExtResource("1_eqqj6")
+id = "scholar"
+name = "Scholar"
+texture = ExtResource("2_lwow0")
+logic_script = ExtResource("1_rq2v1")

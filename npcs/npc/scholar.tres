@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://c186vcp60smdj"]
-
-[ext_resource type="Script" uid="uid://bbe2npxkft03w" path="res://npcs/scripts/npc.gd" id="1_eqqj6"]
-
-[resource]
-script = ExtResource("1_eqqj6")
-id = "scholar"
-name = "Scholar"

@@ -23,7 +23,7 @@ var nav_tiles = {}
 var restricted_tiles = []
 
 var pending_travel_direction := Vector2i.ZERO
-var fade: float = width * 1.5
+var fade: float = Global.fade_duration
 var found: int = 0
 
 var is_travelling: bool = false
@@ -99,7 +99,7 @@ func create_board(w: int, h: int, shards: int) -> Array:
 		var npc = npc_scene.instantiate()
 		npc.dir = fetch_dir(n_pos)
 		
-		npc.data = load("res://npcs/npc/" + Map.npc_pool.pop_back())
+		npc.data = load("res://npcs/resources/" + Map.npc_pool.pop_back())
 		
 		npc.spawn_tile = n_pos
 		print("Position set to: ", n_pos)
@@ -390,6 +390,8 @@ func check_shard(tile: Vector2):
 	# Save tile state back to global map.
 	Map.map[Map.current_node]["revealed_tiles"] = revealed_tiles.duplicate()
 	Map.map[Map.current_node]["found"] = found
+	
+	print(Global.foundShards)
 
 ### Helpers
 func lose() -> void:

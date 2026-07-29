@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://cq7ud3arjipcw"]
+
+[ext_resource type="Script" uid="uid://bbe2npxkft03w" path="res://npcs/npc.gd" id="1_1xc34"]
+[ext_resource type="Script" uid="uid://dpqsrckv30vfs" path="res://npcs/bard/bard.gd" id="1_vrsll"]
+[ext_resource type="Texture2D" uid="uid://o5dc1cymga8x" path="res://npcs/bard/textures/SOUTH.png" id="2_48dsa"]
+
+[resource]
+script = ExtResource("1_1xc34")
+id = "bard"
+name = "Bard"
+texture = ExtResource("2_48dsa")
+logic_script = ExtResource("1_vrsll")

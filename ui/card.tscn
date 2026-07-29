@@ -34,6 +34,7 @@ offset_right = 384.0
 offset_bottom = 256.0
 
 [node name="Tooltip" type="Label" parent="Panel" unique_id=399577437]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 0
 offset_left = 8.0
 offset_top = 128.0
@@ -47,6 +48,7 @@ Left Click to submit card"
 autowrap_mode = 3
 
 [node name="Name" type="Label" parent="Panel" unique_id=1514581273]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0

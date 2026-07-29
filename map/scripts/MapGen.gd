@@ -8,7 +8,7 @@ var discovered_nodes: Array = []
 var spawn_ref = {} # NEW {"node-1": {"beasts": x, "npcs": y, "shards": z}}
 
 var beast_pool = Array(DirAccess.get_files_at("res://bosses/beasts/"))
-var npc_pool = Array(DirAccess.get_files_at("res://npcs/npc/"))
+var npc_pool = Array(DirAccess.get_files_at("res://npcs/resources/"))
 var map_width = 9
 var map_height = 8
 

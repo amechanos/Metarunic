@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://dqaxsqkoq1s82"]
+
+[ext_resource type="Script" uid="uid://dvbmgeme4267m" path="res://npcs/fortune_teller/fortune_teller.gd" id="1_ajrmf"]
+[ext_resource type="Script" uid="uid://bbe2npxkft03w" path="res://npcs/npc.gd" id="1_h28ow"]
+[ext_resource type="Texture2D" uid="uid://d22pgmij1hl1v" path="res://npcs/philosopher/textures/SOUTH.png" id="3_hugi5"]
+
+[resource]
+script = ExtResource("1_h28ow")
+id = "fortune_teller"
+name = "Fortune Teller"
+texture = ExtResource("3_hugi5")
+logic_script = ExtResource("1_ajrmf")
+metadata/_custom_type_script = "uid://bbe2npxkft03w"

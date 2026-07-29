@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://myavkdr203rq"]
 
 [ext_resource type="FontFile" uid="uid://b1uuydo35ri02" path="res://ui/fonts/Silkscreen-Regular.ttf" id="1_8qbh6"]
-[ext_resource type="Script" uid="uid://ktptifxr4efq" path="res://npcs/scripts/encounter.gd" id="1_bhn66"]
-[ext_resource type="Resource" uid="uid://cq7ud3arjipcw" path="res://npcs/npc/bard.tres" id="2_eguxr"]
-[ext_resource type="Texture2D" uid="uid://o5dc1cymga8x" path="res://npcs/textures/bard/SOUTH.png" id="3_eguxr"]
+[ext_resource type="Script" uid="uid://ktptifxr4efq" path="res://npcs/encounter.gd" id="1_bhn66"]
+[ext_resource type="Resource" uid="uid://c186vcp60smdj" path="res://npcs/resources/scholar.tres" id="2_bhn66"]
+[ext_resource type="Texture2D" uid="uid://o5dc1cymga8x" path="res://npcs/bard/textures/SOUTH.png" id="3_eguxr"]
 [ext_resource type="FontFile" uid="uid://cpeb1u0vuaw2y" path="res://ui/fonts/MartelSans-SemiBold.ttf" id="5_eguxr"]
 
 [node name="Encounter" type="Control" unique_id=756081204]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_bhn66")
-active = ExtResource("2_eguxr")
+active = ExtResource("2_bhn66")
 
 [node name="Image" type="TextureRect" parent="." unique_id=1370034035]
 texture_filter = 1
@@ -34,6 +34,7 @@ text = "Bard"
 vertical_alignment = 2
 
 [node name="Dialogue" type="Label" parent="." unique_id=400686474]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 0
 offset_left = 384.0
 offset_top = 518.0

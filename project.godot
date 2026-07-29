@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Metarunic"
 run/main_scene="uid://bhknyrt3wy50f"
-config/features=PackedStringArray("4.6", "Mobile")
+config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -21,7 +21,6 @@ Global="*uid://cbvnfo7i84h7a"
 Loader="*uid://ijgr24op3sct"
 Map="*uid://rw7wbqrqv8vy"
 Pos="*uid://klvkwow50hnc"
-Data="*uid://d3xku2t0uoswi"
 
 [display]
 
