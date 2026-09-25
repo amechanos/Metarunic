@@ -1,9 +1,9 @@
 extends Control
 
-@onready var sprite = $Image
-@onready var title = $Name
-@onready var textbox = $Dialogue
-@onready var choices = $Choices
+@onready var sprite = $Container/ImagePanel/Image
+@onready var title = $Container/Panel/Name
+@onready var textbox = $Container/Panel/Dialogue
+@onready var choices = $Container/Panel/Choices
 
 @export var active: NpcData
 
@@ -12,7 +12,7 @@ var chat = []
 var ref
 
 func _ready() -> void:
-	#active = Global.current_npc
+	active = Global.current_npc
 	if active and active.logic_script != null:
 		ref = active.logic_script.new()
 		chat = ref.chat
@@ -36,6 +36,7 @@ func update_dialogue():
 	
 		var button = Button.new()
 		button.text = choice_text
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.custom_minimum_size.x = 250
 		
 		button.pressed.connect(func(): _on_choice_selected(destination))

@@ -1,8 +1,8 @@
 class_name MinimapRenderer
 extends Node2D
 
-@export var cell_size: int = 24
-@export var wall_thickness: float = 3.0
+@export var cell_size: int = 48
+@export var wall_thickness: float = 6
 @export var room_color: Color = Color(0.6, 0.6, 0.6, 1.0)
 @export var wall_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 

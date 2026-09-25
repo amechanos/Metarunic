@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_1tysr")
+riddle = "Silver winds travelled from heaven to hell, carrying wisdom down to Earth’s every bell. Found what were their golden keys, life on Earth was granted delicacies."
 id = "the_hierophant"
-riddle_texts = Array[String](["I bind your party to conformity; strike one, and all shall bleed.", "The trouble with the rat race is that even if you win, you're still a rat, and I'm the cat.", "Thousands walk before me. Thousands walk behind me.", "I teach one hymn, one step, one sin — then call it salvation.", "My lesson is a leash: kiss it, and it tightens."])
 correct_card = "the_hierophant"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

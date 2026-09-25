@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_c0ype")
+riddle = "My master sits in endless motion and doesn't mind polar emotions. He says when treasures withers to trash may ashes turn into cash."
 id = "wheel_of_fortune"
-riddle_texts = Array[String](["Spin me once and I may crown you; spin me twice and I may bury you.", "Put me in a casino and I'll return with nothing but a penny.", "Kingdoms rise. Kingdoms fall. Life, but a cycle.", "I am the coin that never lands; I am the hand you can't predict."])
 correct_card = "wheel_of_fortune"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

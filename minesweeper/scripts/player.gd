@@ -63,7 +63,7 @@ func is_within_bounds(pos: Vector2) -> bool:
 	return pos.x >= MIN_LIMIT and pos.x <= MAX_X and \
 		   pos.y >= MIN_LIMIT and pos.y <= MAX_Y
 		
-func get_tile(position: Vector2) -> Vector2:
+func get_tile(position: Vector2) -> Vector2i:
 	var x = (position.x - STEP/2) / STEP
 	var y = (position.y - STEP/2) / STEP
-	return Vector2(x, y)
+	return Vector2i(x, y)

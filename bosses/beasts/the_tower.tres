@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_je56b")
+riddle = "Atop the peak in crashing screams, a lone one stands with bizarre old schemes. They cast the light from the highest place, calling for sacred heaven's shocking grace."
 id = "the_tower"
-riddle_texts = Array[String](["I systematically shatter the very ground you stand on until nothing is left.", "Don't stare up the stairs, because you know you can't make it.", "I shatter certainty. I break what seemed eternal. Yet truth survives my strike. What am I?", "Don't worry if plan A fails, there are 25 more letters in the alphabet.", "I am the lightning that edits your life in one line."])
 correct_card = "the_tower"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

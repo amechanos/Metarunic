@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_hn4do")
+riddle = "Erase the script and unrolled scroll, my words come off with powerful control. Beyond what seems of the uniform face, what lies beneath is the mind’s own race."
 id = "the_high_priestess"
-riddle_texts = Array[String](["The louder you fight, the thicker my silent, unseen walls become.", "Life finds a way... with or without knowledge.", "The loud pass by. The patient hears. The deaf learns to listen.", "Nature bends to my will.", "I speak in secrets with no voice; my answer lives behind your eyes."])
 correct_card = "the_high_priestess"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_mth0x")
+riddle = "Reborn again under a sound's gold grace, they call my master's eternal name. Upon their step onto the pedestal of steel, beyond their face is nothing concealed."
 id = "judgement"
-riddle_texts = Array[String](["I tally your past body count to determine the buffs I use against you.", "I hear and I forget. I see and I remember. I do and I understand.", "The past calls my name. I cannot ignore its voice.", "You never realize how boring your life is until someone asks what you like to do for fun.", "What's 9+10?"])
 correct_card = "judgement"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

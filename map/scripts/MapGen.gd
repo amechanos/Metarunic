@@ -6,11 +6,28 @@ var map_grid: Dictionary = {}
 var map_nodes_array: Array[MapCell] = []
 var discovered_nodes: Array = []
 var spawn_ref = {} # NEW {"node-1": {"beasts": x, "npcs": y, "shards": z}}
+const QUEST_GUITAR = 2
 
 var beast_pool = Array(DirAccess.get_files_at("res://bosses/beasts/"))
 var npc_pool = Array(DirAccess.get_files_at("res://npcs/resources/"))
 var map_width = 9
 var map_height = 8
+
+func scatter_object(grid: Array, value: int, excluded_positions: Array = []) -> Vector2i:
+	var available_positions: Array[Vector2i] = []
+
+	for x in range(grid.size()):
+		for y in range(grid[x].size()):
+			var position := Vector2i(x, y)
+			if grid[x][y] == 0 and position not in excluded_positions:
+				available_positions.append(position)
+
+	if available_positions.is_empty():
+		return Vector2i(-1, -1)
+
+	var chosen_position = available_positions.pick_random()
+	grid[chosen_position.x][chosen_position.y] = value
+	return chosen_position
 
 func get_room_data(data_type: String, room = current_node):
 	var room_key = "node-" + str(room)
@@ -30,6 +47,33 @@ func get_valid_positions(w, h):
 		valid_pos.append(Vector2i(w, i))
 	
 	return valid_pos
+
+func _get_interaction_tile(spawn_pos: Vector2i, w: int, h: int) -> Vector2i:
+	if spawn_pos.x == -1:
+		return Vector2i(0, spawn_pos.y)
+	if spawn_pos.x == w:
+		return Vector2i(w - 1, spawn_pos.y)
+	if spawn_pos.y == -1:
+		return Vector2i(spawn_pos.x, 0)
+	if spawn_pos.y == h + 1:
+		return Vector2i(spawn_pos.x, h - 1)
+	return spawn_pos
+
+func _take_spawn_position(available_tiles: Array, occupied_interaction_tiles: Array, w: int, h: int) -> Vector2i:
+	var valid_positions = []
+
+	for position in available_tiles:
+		var interaction_tile = _get_interaction_tile(position, w, h)
+		if interaction_tile not in occupied_interaction_tiles:
+			valid_positions.append(position)
+
+	if valid_positions.is_empty():
+		return Vector2i(-1, -1)
+
+	var chosen_position: Vector2i = valid_positions.pick_random()
+	available_tiles.erase(chosen_position)
+	occupied_interaction_tiles.append(_get_interaction_tile(chosen_position, w, h))
+	return chosen_position
 	
 func set_refs(rooms):
 	# Shards
@@ -55,6 +99,7 @@ func set_refs(rooms):
 		
 		var npc_positions: Array[Vector2i] = []
 		var beast_positions: Array[Vector2i] = []
+		var occupied_interaction_tiles = []
 
 		# --- NPCs SCATTERING ---
 		var npc_amount = 0
@@ -71,11 +116,9 @@ func set_refs(rooms):
 		# 3. Physically pick coordinates from the leftover tiles
 		if npc_amount > 0 and available_tiles.size() > 0:
 			for k in range(npc_amount):
-				if available_tiles.is_empty(): break # Safe-guard if layout is totally packed
-				
-				var random_pos = available_tiles.pick_random()
+				var random_pos = _take_spawn_position(available_tiles, occupied_interaction_tiles, 8, 6)
+				if random_pos == Vector2i(-1, -1): break
 				npc_positions.append(random_pos)
-				available_tiles.erase(random_pos) # Prevent npcs from overlapping each other
 
 		# --- BEASTS SCATTERING ---
 		var beast_amount = 0
@@ -92,11 +135,9 @@ func set_refs(rooms):
 		# 3. Physically pick coordinates from the leftover tiles
 		if beast_amount > 0 and available_tiles.size() > 0:
 			for k in range(beast_amount):
-				if available_tiles.is_empty(): break # Safe-guard if layout is totally packed
-				
-				var random_pos = available_tiles.pick_random()
+				var random_pos = _take_spawn_position(available_tiles, occupied_interaction_tiles, 8, 6)
+				if random_pos == Vector2i(-1, -1): break
 				beast_positions.append(random_pos)
-				available_tiles.erase(random_pos) # Prevent beasts from overlapping each other
 		
 		# --- RECORD DATA ---
 		var node_key = "node-" + str(i)
@@ -118,13 +159,13 @@ func set_refs(rooms):
 	var last_node_key = "node-" + str(rooms)
 	var final_tiles = get_valid_positions(8, 6)
 	var final_beast_positions: Array[Vector2i] = []
+	var occupied_interaction_tiles = []
 	
 	if remaining_beasts > 0 and final_tiles.size() > 0:
 		for b in range(remaining_beasts):
-			if final_tiles.is_empty(): break
-			var random_pos = final_tiles.pick_random()
+			var random_pos = _take_spawn_position(final_tiles, occupied_interaction_tiles, 8, 6)
+			if random_pos == Vector2i(-1, -1): break
 			final_beast_positions.append(random_pos)
-			final_tiles.erase(random_pos)
 
 	spawn_ref[last_node_key] = {
 		"beasts": final_beast_positions, 

@@ -18,9 +18,13 @@ var shardLibrary: Dictionary = {}
 var assemblyState: Dictionary = {}
 
 var lostShards: Dictionary = {}
-var foundShards: Dictionary = {"1": "test", "2": "test", "3": "test", "4": "test", "5": "test",}
+var foundShards: Dictionary = {}
 
 var completedCards: Array = ["the_fool", "wheel_of_fortune"]
+var bard_guitar_scattered: bool = false
+var bard_guitar_returned: bool = false
+var bard_guitar_found: bool = false
+var bard_guitar_room: int = -1
 
 func _ready():
 	Loader.load_shard_library()
@@ -30,4 +34,3 @@ func _ready():
 var current_npc: NpcData = null
 var current_beast: BeastData = null
 var defeated_beasts: Array[String] = []
-var riddle_ref: Dictionary = {}

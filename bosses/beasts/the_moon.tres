@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_tct7q")
+riddle = "My master swims in puzzled notions and their tears could fill an ocean. Beyond my wisdom comes their dreams, but all that’s left is a single stream."
 id = "the_moon"
-riddle_texts = Array[String](["I materialize your deepest anxieties by cloning your exact gear and skills.", "The deep end is shallower than the shallow end.", "I show faces that do not exist. I create roads that lead nowhere.", "I paint truth with lies, and you call it a dream.", "I borrow your fear, then sell it back as prophecy."])
 correct_card = "the_moon"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."
