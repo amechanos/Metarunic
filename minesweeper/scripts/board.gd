@@ -6,6 +6,7 @@ extends Node2D
 @onready var counter = $Camera/UI/Shards/Value
 @onready var list = $Camera/UI/found
 @onready var camera = $Camera
+@onready var bg = $Background
 
 @onready var npc_container = $Npcs
 @onready var beast_container = $Beasts
@@ -461,7 +462,7 @@ func _process(delta: float) -> void:
 func center_camera() -> void:
 	var center: Vector2 = Vector2(Global.TILE_SIZE * width / 2, Global.TILE_SIZE * height / 2)
 	camera.global_position = center
-	$"2675758ShippukirifudaWipTopDownDesert".global_position = center
+	bg.global_position = center
 
 func travel_to(tile: Vector2i, direction: String) -> void:
 	if is_travelling:

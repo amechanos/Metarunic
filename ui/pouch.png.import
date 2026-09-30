@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2x6nch1vf7uq"
-path="res://.godot/imported/test.png-76c4dcf663b1c2d2d894e75da2117527.ctex"
+uid="uid://p70digq1jh43"
+path="res://.godot/imported/pouch.png-5ff2ccf4193fbafd2aa6c40cfe32faff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bgs/test.png"
-dest_files=["res://.godot/imported/test.png-76c4dcf663b1c2d2d894e75da2117527.ctex"]
+source_file="res://ui/pouch.png"
+dest_files=["res://.godot/imported/pouch.png-5ff2ccf4193fbafd2aa6c40cfe32faff.ctex"]
 
 [params]
 
