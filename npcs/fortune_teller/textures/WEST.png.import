@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btwkgy3usbok1"
-path="res://.godot/imported/2675758_shippukirifuda_wip-top-down-desert.png-ed38218dd92d1324bf9e13f42b7b62ec.ctex"
+uid="uid://85j102rmui2r"
+path="res://.godot/imported/WEST.png-2ea8e8f5b470b93c0ed65a9414aa8c5b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/2675758_shippukirifuda_wip-top-down-desert.png"
-dest_files=["res://.godot/imported/2675758_shippukirifuda_wip-top-down-desert.png-ed38218dd92d1324bf9e13f42b7b62ec.ctex"]
+source_file="res://npcs/fortune_teller/textures/WEST.png"
+dest_files=["res://.godot/imported/WEST.png-2ea8e8f5b470b93c0ed65a9414aa8c5b.ctex"]
 
 [params]
 

@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_mm0ry")
+riddle = "Beneath the night they do not know, when tomorrow does come a new step grows. No room for fear do they ever try to oppose, they change in ways to adapt to prose."
 id = "the_fool"
-riddle_texts = Array[String](["I am the empty zero, a blind leap of faith with nothing to lose.", "The sand molds yet I am none, just a mirage.", "I walk without knowing. I fall without fear. Every ending becomes my first step.", "I change, day by day, shifting to whatever I please.", "Where there is a Clown, there must be a Jester."])
 correct_card = "the_fool"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

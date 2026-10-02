@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_akfb2")
+riddle = "Beneath the sky they sit alone, on a meadow so wide with flowers called home. A companion comes by for a quiet time, blooming and blossomed to an action done right."
 id = "the_empress"
-riddle_texts = Array[String](["I am the smothering mother who feeds on growth.", "The 34th Law is forbidden, though the body says otherwise.", "I give without counting. I grow without asking.", "My cradle is a jungle; my gift is a vine that never lets go.", "I bloom in your lungs, I root in your streets — what am I?"])
 correct_card = "the_empress"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

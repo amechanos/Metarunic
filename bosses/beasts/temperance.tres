@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_qj1f1")
+riddle = "Like the sea they burn and fire they flow, the heavens do come with an eternal glow. Pour their wine equal to go, the weight of balance on the scale must show."
 id = "temperance"
-riddle_texts = Array[String](["I detonate if you tip the balance between my extreme hot and cold states.", "In my walks, every man I meet is my superior in some way, and in that I copy him.", "Too much drowns. Too little starves. Balance is key.", "I pour fire into water and call it peace.", "Mix me right, and I heal; mix me wrong, and I ruin."])
 correct_card = "temperance"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

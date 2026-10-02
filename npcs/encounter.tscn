@@ -2,7 +2,6 @@
 
 [ext_resource type="FontFile" uid="uid://b1uuydo35ri02" path="res://ui/fonts/Silkscreen-Regular.ttf" id="1_8qbh6"]
 [ext_resource type="Script" uid="uid://ktptifxr4efq" path="res://npcs/encounter.gd" id="1_bhn66"]
-[ext_resource type="Resource" uid="uid://c186vcp60smdj" path="res://npcs/resources/scholar.tres" id="2_bhn66"]
 [ext_resource type="Texture2D" uid="uid://o5dc1cymga8x" path="res://npcs/bard/textures/SOUTH.png" id="3_eguxr"]
 [ext_resource type="FontFile" uid="uid://cpeb1u0vuaw2y" path="res://ui/fonts/MartelSans-SemiBold.ttf" id="5_eguxr"]
 
@@ -10,43 +9,59 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_bhn66")
-active = ExtResource("2_bhn66")
 
-[node name="Image" type="TextureRect" parent="." unique_id=1370034035]
+[node name="Container" type="Control" parent="." unique_id=980972815]
+anchors_preset = 0
+offset_left = 160.0
+offset_top = 192.0
+offset_right = 1760.0
+offset_bottom = 896.0
+
+[node name="ImagePanel" type="Panel" parent="Container" unique_id=211097413]
+layout_mode = 0
+offset_right = 416.0
+offset_bottom = 704.0
+
+[node name="Image" type="TextureRect" parent="Container/ImagePanel" unique_id=2105569408]
 texture_filter = 1
 layout_mode = 0
-offset_left = 96.0
-offset_top = 384.0
-offset_right = 352.0
-offset_bottom = 832.0
+offset_right = 416.0
+offset_bottom = 704.0
 texture = ExtResource("3_eguxr")
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="." unique_id=652827450]
+[node name="Panel" type="Panel" parent="Container" unique_id=1192405694]
 layout_mode = 0
-offset_left = 384.0
-offset_top = 451.0
-offset_right = 1024.0
-offset_bottom = 518.0
-theme_override_fonts/font = ExtResource("1_8qbh6")
-theme_override_font_sizes/font_size = 52
-text = "Bard"
-vertical_alignment = 2
+offset_left = 448.0
+offset_right = 1600.0
+offset_bottom = 704.0
 
-[node name="Dialogue" type="Label" parent="." unique_id=400686474]
+[node name="Name" type="Label" parent="Container/Panel" unique_id=652827450]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 1120.0
+offset_bottom = 192.0
+theme_override_fonts/font = ExtResource("1_8qbh6")
+theme_override_font_sizes/font_size = 64
+text = "Bard"
+vertical_alignment = 1
+
+[node name="Dialogue" type="Label" parent="Container/Panel" unique_id=400686474]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 0
-offset_left = 384.0
-offset_top = 518.0
-offset_right = 1472.0
-offset_bottom = 704.0
+offset_left = 32.0
+offset_top = 192.0
+offset_right = 1120.0
+offset_bottom = 448.0
 theme_override_fonts/font = ExtResource("5_eguxr")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 autowrap_mode = 3
 
-[node name="Choices" type="HBoxContainer" parent="." unique_id=163292278]
+[node name="Choices" type="HBoxContainer" parent="Container/Panel" unique_id=163292278]
 layout_mode = 0
-offset_left = 384.0
-offset_top = 704.0
-offset_right = 1472.0
-offset_bottom = 771.0
+offset_left = 32.0
+offset_top = 512.0
+offset_right = 1120.0
+offset_bottom = 640.0
+theme_override_constants/separation = 32

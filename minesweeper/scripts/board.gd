@@ -6,12 +6,14 @@ extends Node2D
 @onready var counter = $Camera/UI/Shards/Value
 @onready var list = $Camera/UI/found
 @onready var camera = $Camera
+@onready var bg = $Camera/UI/Background
 
 @onready var npc_container = $Npcs
 @onready var beast_container = $Beasts
 
 var width: int = Global.WIDTH
 var height: int = Global.HEIGHT
+@export_enum("savanna", "desert", "snow", "marsh", "plains", "cherry") var biome: String = "plains"
 
 var npcs = []
 var beasts = []
@@ -92,6 +94,7 @@ func create_board(w: int, h: int, shards: int) -> Array:
 		beast_container.add_child(beast) 
 		
 		beasts.append({ "data": beast.data, "position": b_pos, "direction": fetch_dir(b_pos) })
+		restricted_tiles.append(beast.spawn_tile)
 		restricted_tiles.append(beast.adjacent_tile)
 
 	# --- SPAWN NPCs ---
@@ -107,6 +110,7 @@ func create_board(w: int, h: int, shards: int) -> Array:
 		npc_container.add_child(npc)
 		
 		npcs.append({ "data": npc.data, "position": n_pos, "direction": fetch_dir(n_pos) })
+		restricted_tiles.append(npc.spawn_tile)
 		restricted_tiles.append(npc.adjacent_tile)
 		
 	set_nav(w,h, Map.current_node-1)
@@ -154,7 +158,7 @@ func fetch_dir(pos: Vector2i) -> String:
 		return "WEST"
 	if pos.y == -1:
 		return "SOUTH"
-	if pos.y == height:
+	if pos.y == height or pos.y == height + 1:
 		return "NORTH"
 		
 	return "NORTH"
@@ -163,24 +167,43 @@ func set_nav(w, h, i):
 	var node = Map.map_nodes_array[i]
 	
 	if node.path_bottom:
-		_process_edge_tile(true, h - 1, w, "DOWN")
+		_process_edge_tile(_get_edge_positions(w, h, "DOWN"), "DOWN")
 		
 	if node.path_top:
-		_process_edge_tile(true, 0, w, "UP")
+		_process_edge_tile(_get_edge_positions(w, h, "UP"), "UP")
 		
 	if node.path_right:
-		_process_edge_tile(false, w - 1, h, "RIGHT")
+		_process_edge_tile(_get_edge_positions(w, h, "RIGHT"), "RIGHT")
 		
 	if node.path_left:
-		_process_edge_tile(false, 0, h, "LEFT")
+		_process_edge_tile(_get_edge_positions(w, h, "LEFT"), "LEFT")
 
-func _process_edge_tile(is_horizontal: bool, fixed_coordinate: int, max_length: int, direction: String):
+func _get_edge_positions(w: int, h: int, direction: String) -> Array[Vector2i]:
+	var positions: Array[Vector2i] = []
+
+	match direction:
+		"UP":
+			for x in range(w):
+				positions.append(Vector2i(x, 0))
+		"DOWN":
+			for x in range(w):
+				positions.append(Vector2i(x, h - 1))
+		"LEFT":
+			for y in range(h):
+				positions.append(Vector2i(0, y))
+		"RIGHT":
+			for y in range(h):
+				positions.append(Vector2i(w - 1, y))
+		_:
+			push_error("Unknown navigation direction: " + direction)
+
+	return positions
+
+func _process_edge_tile(edge_positions: Array[Vector2i], direction: String):
 	var valid_positions: Array[Vector2i] = []
 	
-	for i in range(max_length):
-		var pos = Vector2i(i, fixed_coordinate) if is_horizontal else Vector2i(fixed_coordinate, i)
-		
-		if not restricted_tiles.has(pos):
+	for pos in edge_positions:
+		if not restricted_tiles.has(pos) and not nav_tiles.has(pos):
 			valid_positions.append(pos)
 			
 	if not valid_positions.is_empty():
@@ -291,10 +314,10 @@ func _on_player_interacted(tile: Vector2) -> void:
 			# 3. Route the data based on the entity's parent container
 			if entity.get_parent() == beast_container:
 				Global.current_beast = entity.data
-				Pos.move(tile, "res://bosses/encounter.tscn")
+				Pos.move(Player.global_position, "res://bosses/encounter.tscn", entity.spawn_tile)
 			else:
 				Global.current_npc = entity.data
-				Pos.move(tile, "res://npcs/encounter.tscn")
+				Pos.move(Player.global_position, "res://npcs/encounter.tscn", entity.spawn_tile)
 			return
 	
 func _on_player_clicked(tile: Vector2) -> void:
@@ -345,7 +368,9 @@ func on_reveal(tile: Vector2):
 	if tile_i in nav_tiles:
 		var direction = nav_tiles[tile_i]
 		print("Travelling ", direction)
-		travel_to(tile_i)
+		travel_to(tile_i, direction)
+		return
+	if tile_i in revealed_tiles:
 		return
 
 	check_shard(tile)
@@ -408,9 +433,9 @@ func _process(delta: float) -> void:
 func center_camera() -> void:
 	var center: Vector2 = Vector2(Global.TILE_SIZE * width / 2, Global.TILE_SIZE * height / 2)
 	camera.global_position = center
-	$"2675758ShippukirifudaWipTopDownDesert".global_position = center
+	bg.global_position = center
 
-func travel_to(tile: Vector2i) -> void:
+func travel_to(tile: Vector2i, direction: String) -> void:
 	if is_travelling:
 		return 
 		
@@ -424,22 +449,22 @@ func travel_to(tile: Vector2i) -> void:
 	Map.map[Map.current_node]["beasts"] = beasts
 	
 	var grid_width = Map.map_width 
-	var dir: String
+
+	match direction:
+		"UP":
+			Map.current_node -= grid_width
+		"DOWN":
+			Map.current_node += grid_width
+		"LEFT":
+			Map.current_node -= 1
+		"RIGHT":
+			Map.current_node += 1
+		_:
+			push_error("Unknown navigation direction: " + direction)
+			is_travelling = false
+			return
 	
-	if tile.y == 0:
-		Map.current_node -= grid_width
-		dir = "NORTH"
-	elif tile.y == height - 1:
-		Map.current_node += grid_width
-		dir = "SOUTH"
-	elif tile.x == 0:
-		Map.current_node -= 1
-		dir = "WEST"
-	elif tile.x == width - 1:
-		Map.current_node += 1
-		dir = "EAST"
-	
-	Pos.temp_i = Pos.on_new_board(tile, dir, height, width)
+	Pos.temp_i = Pos.on_new_board(tile, direction, height, width)
 	print("Player travelled from tile: ", tile, " to tile: ", Pos.temp_i)
 	
 	Global.grid = []
@@ -450,11 +475,13 @@ func travel_to(tile: Vector2i) -> void:
 	nav_tiles.clear()
 	
 	get_tree().reload_current_scene()
-	
+
 func _ready() -> void:
-	
 	shards = Map.get_room_data("shards")
+	updateShards()
+	bg.generate_background(biome, width * 20, height * 10)
 	center_camera()
+	bg.global_position = Vector2.ZERO
 	Pos.set_player(Player.STEP, Player)
 	
 	## Clear all things
@@ -476,7 +503,7 @@ func _ready() -> void:
 	else:
 		_generate_new_board()
 		print("\nCouldn't find Node ", Map.current_node, "! Creating new board...\n")
-	
+
 	for item in npc_container.get_children():
 		print(item.data.id, " - Reference: ", item.adjacent_tile)
 	for item in beast_container.get_children():

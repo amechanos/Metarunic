@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_j2brp")
+riddle = "During days of chaos the withers come, but on their path a lone light drums. Beyond the peak of solitude we dwelled, our visions of life were quickly felled."
 id = "the_hermit"
-riddle_texts = Array[String](["Isolate from your allies and you will find your shadow.", "If you know what you don't know but don't know what you know, what do you know?", "I walk alone. What seeks truth in silence?", "Knowledge is knowing a tomato is a fruit; wisdom is not putting it in a fruit salad.", "In my lantern is a question; in my cave is an answer you won't like."])
 correct_card = "the_hermit"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

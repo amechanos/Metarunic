@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_2wi8r")
+riddle = "They hold the chains on relentless beasts, command yet forwards do they not seek. Without direction they do not know, finding new ways to let power grow."
 id = "the_chariot"
-riddle_texts = Array[String](["My speed is my weapon, but my unchecked aggression is my downfall.", "The sharpest blade isn't the sharpest tool in the shed.", "Two forces pull against me. Yet I move forward all the same.", "I win by rushing, I lose by braking — what rides the edge of control?", "Rein the storm, or be dragged by it."])
 correct_card = "the_chariot"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

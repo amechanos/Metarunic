@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2x6nch1vf7uq"
-path="res://.godot/imported/test.png-76c4dcf663b1c2d2d894e75da2117527.ctex"
+uid="uid://dpbki0d3ll8ob"
+path="res://.godot/imported/EAST.png-c13b592c0f0baedabb6053a0b5fcffa4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bgs/test.png"
-dest_files=["res://.godot/imported/test.png-76c4dcf663b1c2d2d894e75da2117527.ctex"]
+source_file="res://npcs/fortune_teller/textures/EAST.png"
+dest_files=["res://.godot/imported/EAST.png-c13b592c0f0baedabb6053a0b5fcffa4.ctex"]
 
 [params]
 

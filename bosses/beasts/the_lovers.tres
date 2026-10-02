@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_8ytm8")
+riddle = "They are the sunlight under falling rain, and like fire when it's cold and grey. It's summer when they're here on a winter's day, shelter us with your warm embrace."
 id = "the_lovers"
-riddle_texts = Array[String](["Pull us apart and we detonate; push us together and we reject your steel.", "Call me at 3, I won't answer. Call me x and it's over.", "Are two souls ever without chains?", "Two become one, yet one becomes two — choose, and bleed either way.", "My bond is softer than silk, stronger than iron — what holds you?"])
 correct_card = "the_lovers"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

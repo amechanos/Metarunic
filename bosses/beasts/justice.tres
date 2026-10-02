@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_2jfx6")
+riddle = "We're not winners or losers that are rich nor poor, we are all just dreamers that are just unsure. Like humans we are but the law must make, forever we are always at stake."
 id = "justice"
-riddle_texts = Array[String](["I mirror your exact damage back to you. Balance your pain and healing. What am I?", "The streets are corrupted with crime. Someone has to do something...", "I favour neither king nor beggar.", "My blade has no hate; it only counts.", "Tip the scale, and the world tips you back."])
 correct_card = "justice"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

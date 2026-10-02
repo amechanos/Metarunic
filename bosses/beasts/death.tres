@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_5nvay")
+riddle = "The king of fear reigns on their throne, upon the battlefield they stand alone. On their blackest knight does evil swarm, in pale moonlight is the final storm."
 id = "death"
-riddle_texts = Array[String](["I strip away your old self, forcing you to accept a random rebirth.", "What's 3+10?", "All fear my arrival. Yet fields bloom after I pass.", "Never take life seriously. Nobody gets out alive anyway.", "I am the door that only swings one way — yet everyone must pass through."])
 correct_card = "death"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("2_2vm8x")
+riddle = "In brightest days and in the darkest of nights, may their hope transcend human life. Where flowers grow and deserts flow, watch my master’s eternal glow."
 id = "the_sun"
-riddle_texts = Array[String](["My intense vitality drains your mana, but my own glare leaves me back-blind.", "Show me light, and I'll give you power.", "Shadows flee before me. Children laugh beneath me.", "Look in the mirror. If you can't spot a difference, you might be blind.", "I reveal what you hide, and burn what you pretend."])
 correct_card = "the_sun"
 upright_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, the statue shatters. Their existence from Teranilus fades into silence and disappears forever."
 reversed_outcome = "It reacts to the card you are holding, cracks forming in the statue. Suddenly, a loud roar erupts, the statue no longer stone but a proper beast. Their dominion over Teranilus is now sealed, granting them freedom from their stone form."

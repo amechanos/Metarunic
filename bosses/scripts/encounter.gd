@@ -12,22 +12,18 @@ extends Control
 var beast_default = load("res://bosses/textures/SOUTH.png")
 var scene
 
-var riddle: int
+var riddle: String
 var index: int = 0
 var affected: bool = false
 
 var dialogue: Array = []
 
 func _ready() -> void:
-	
+	next.show()
 	active = Global.current_beast
 	
 	affected = false
-	if Global.riddle_ref.has(active.id):
-		riddle = Global.riddle_ref[active.id]
-	else:
-		riddle = randi_range(0, active.riddle_texts.size() - 1)
-		Global.riddle_ref[active.id] = riddle
+	riddle = active.riddle
 		
 	scene = get_tree().current_scene
 	sprite.texture = beast_default
@@ -39,7 +35,7 @@ func set_dialogue():
 		"You approach the weathered statue and gently dust of the debris around.",
 		"Removing the debris, you find some symbols near the base.",
 		"You recognise the symbols forming a riddle and it reads: ",
-		active.riddle_texts[riddle],
+		riddle,
 		"You notice a small slit near the top, perhaps giving the statue an offering may awaken it?"
 	]
 	
@@ -77,7 +73,14 @@ func _on_leave_pressed() -> void:
 	Pos.return_from(affected, "res://minesweeper/board.tscn")
 
 func _on_next_pressed() -> void:
-	textbox.text = dialogue[index]
-	if index < dialogue.size()-1:
+	if index >= dialogue.size():
+		index = 3
+		textbox.text = dialogue[index]
 		index += 1
-	
+		next.text = "Next"
+		return
+
+	textbox.text = dialogue[index]
+	index += 1
+	if index >= dialogue.size():
+		next.text = "view riddle"
