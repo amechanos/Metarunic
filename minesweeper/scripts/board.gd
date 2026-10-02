@@ -6,13 +6,14 @@ extends Node2D
 @onready var counter = $Camera/UI/Shards/Value
 @onready var list = $Camera/UI/found
 @onready var camera = $Camera
-@onready var bg = $Background
+@onready var bg = $Camera/UI/Background
 
 @onready var npc_container = $Npcs
 @onready var beast_container = $Beasts
 
 var width: int = Global.WIDTH
 var height: int = Global.HEIGHT
+@export_enum("savanna", "desert", "snow", "marsh", "plains", "cherry") var biome: String = "plains"
 
 var npcs = []
 var beasts = []
@@ -216,25 +217,6 @@ func _generate_new_board() -> void:
 	counter.text = str(shards)
 	HP.text = str(Global.health)
 	Global.grid = create_board(width, height, shards)
-	_ensure_quest_objects()
-
-func _ensure_quest_objects() -> void:
-	if not Global.bard_guitar_scattered or Global.bard_guitar_found:
-		return
-	if Map.current_node != Global.bard_guitar_room:
-		return
-
-	for column in Global.grid:
-		if Map.QUEST_GUITAR in column:
-			return
-
-	var excluded_positions: Array = restricted_tiles + nav_tiles.keys()
-	var guitar_position = Map.scatter_object(Global.grid, Map.QUEST_GUITAR, excluded_positions)
-	if guitar_position == Vector2i(-1, -1):
-		push_warning("Unable to place the Bard's guitar in this room.")
-		return
-
-	Map.map[Map.current_node]["grid"] = Global.grid.duplicate()
 
 func _restore_board(board: int) -> void:
 	var saved = Map.map[board]
@@ -263,8 +245,6 @@ func _restore_board(board: int) -> void:
 			tilemap.set_cell(tile, 0, TILE["CORRECT"])
 		elif cell_value == 0:
 			tilemap.set_cell(tile, 0, TILE["WRONG"])
-		elif cell_value == Map.QUEST_GUITAR:
-			tilemap.set_cell(tile, 0, TILE["CORRECT"])
 		else:
 			get_nearby_bombs(Global.grid, tile)
 			
@@ -393,15 +373,6 @@ func on_reveal(tile: Vector2):
 	if tile_i in revealed_tiles:
 		return
 
-	if Global.grid[tile_i.x][tile_i.y] == Map.QUEST_GUITAR:
-		Global.bard_guitar_found = true
-		Global.grid[tile_i.x][tile_i.y] = 0
-		revealed_tiles[tile_i] = Map.QUEST_GUITAR
-		tilemap.set_cell(tile_i, 0, TILE["CORRECT"])
-		Map.map[Map.current_node]["grid"] = Global.grid.duplicate()
-		Map.map[Map.current_node]["revealed_tiles"] = revealed_tiles.duplicate()
-		return
-
 	check_shard(tile)
 	
 func check_shard(tile: Vector2):
@@ -504,11 +475,13 @@ func travel_to(tile: Vector2i, direction: String) -> void:
 	nav_tiles.clear()
 	
 	get_tree().reload_current_scene()
-	
+
 func _ready() -> void:
-	
 	shards = Map.get_room_data("shards")
+	updateShards()
+	bg.generate_background(biome, width * 20, height * 10)
 	center_camera()
+	bg.global_position = Vector2.ZERO
 	Pos.set_player(Player.STEP, Player)
 	
 	## Clear all things
@@ -531,8 +504,6 @@ func _ready() -> void:
 		_generate_new_board()
 		print("\nCouldn't find Node ", Map.current_node, "! Creating new board...\n")
 
-	_ensure_quest_objects()
-	
 	for item in npc_container.get_children():
 		print(item.data.id, " - Reference: ", item.adjacent_tile)
 	for item in beast_container.get_children():

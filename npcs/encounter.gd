@@ -12,7 +12,7 @@ var chat = []
 var ref
 
 func _ready() -> void:
-	active = Global.current_npc
+	active = active if not Global.current_npc else Global.current_npc
 	if active and active.logic_script != null:
 		ref = active.logic_script.new()
 		chat = ref.chat

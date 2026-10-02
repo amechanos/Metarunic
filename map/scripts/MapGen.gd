@@ -6,28 +6,11 @@ var map_grid: Dictionary = {}
 var map_nodes_array: Array[MapCell] = []
 var discovered_nodes: Array = []
 var spawn_ref = {} # NEW {"node-1": {"beasts": x, "npcs": y, "shards": z}}
-const QUEST_GUITAR = 2
 
 var beast_pool = Array(DirAccess.get_files_at("res://bosses/beasts/"))
 var npc_pool = Array(DirAccess.get_files_at("res://npcs/resources/"))
 var map_width = 9
 var map_height = 8
-
-func scatter_object(grid: Array, value: int, excluded_positions: Array = []) -> Vector2i:
-	var available_positions: Array[Vector2i] = []
-
-	for x in range(grid.size()):
-		for y in range(grid[x].size()):
-			var position := Vector2i(x, y)
-			if grid[x][y] == 0 and position not in excluded_positions:
-				available_positions.append(position)
-
-	if available_positions.is_empty():
-		return Vector2i(-1, -1)
-
-	var chosen_position = available_positions.pick_random()
-	grid[chosen_position.x][chosen_position.y] = value
-	return chosen_position
 
 func get_room_data(data_type: String, room = current_node):
 	var room_key = "node-" + str(room)

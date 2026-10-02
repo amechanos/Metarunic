@@ -1,6 +1,8 @@
 extends Node
 
-var health: int = 10
+const MAX_HEALTH := 10
+var health: int = MAX_HEALTH
+var bard_heal_count: int = 0
 
 # Minesweeper Mode 
 const TILE_SIZE = 96
@@ -21,10 +23,8 @@ var lostShards: Dictionary = {}
 var foundShards: Dictionary = {}
 
 var completedCards: Array = ["the_fool", "wheel_of_fortune"]
-var bard_guitar_scattered: bool = false
-var bard_guitar_returned: bool = false
-var bard_guitar_found: bool = false
-var bard_guitar_room: int = -1
+
+var music_player: AudioStreamPlayer
 
 func _ready():
 	Loader.load_shard_library()

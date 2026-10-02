@@ -1,36 +1,59 @@
 extends Node
 class_name bard
 
-var upgrade_req = 5
-
 var chat = [
-	{"text": "You have the look of someone who has heard a good song and is pretending not to need another.", "choices": {"I am looking for something else.": 1, "Play me a song.": 2 if Global.bard_guitar_returned else 1, "Goodbye.": 9}},
-	{"text": "My guitar is gone. I left it beside a campfire, and the next morning, it was gone. It was like the night had scattered it away!", "choices": {"How can I help?": start_guitar_quest, "Why would a night scatter a guitar?": 3, "Goodbye.": 7}},
-	{"text": "A song without a listener is just a secret with a melody. Sit a moment; I will make it less lonely.", "choices": {"That was beautiful.": 0, "Tell me about your guitar.": 4}},
-	{"text": "Because it was jealous. Every time I played, the stars leaned closer, and one night the sky decided to keep the tune for itself.", "choices": {"I will look for the pieces.": start_guitar_quest, "That is not how guitars work.": 0}},
-
-	{"text": "My guitar was forged to calm the beasts, but they are slumbering as of now. Perhaps if they were awake, my tunes could soothe them to not destroy our world.", "choices": {"How do I do that?": 5, "I found your guitar.": check_guitar, "Wow.": 0}},
-	{"text": "Sometimes, the most beautiful melodies are the ones we sing to ourselves in the dark. Tarot cards can be reversed, giving beasts a second chance.", "choices": {"Got it.": 0}},
-
-	{"text": "Wow! You found my guitar! Thanks a lot, traveller. Here, take this card I found.", "choices": {"Play me a song?": 2, "Goodbye.": 7}},
+	{"text": "A song can mend more than a broken heart. Need a little help?", "choices": {"Heal me.": offer_heal, "Goodbye.": 5}},
+	{"text": "", "choices": {"Play for me.": heal_player, "Not now.": 0}},
+	{"text": "", "choices": {"I'll come back later.": 0}},
+	{"text": "You are already at full health.", "choices": {"Thank you.": 0}},
+	{"text": "", "choices": {"Thank you.": 0}},
 	{"text": "Safe roads, traveller. Leave a little room in your day for an unexpected chorus.", "choices": {}}
 ]
 
-# --- Custom NPC Functions ---
+func offer_heal() -> int:
+	if Global.health >= Global.MAX_HEALTH:
+		return 3
 
-func start_guitar_quest() -> int:
-	Global.bard_guitar_scattered = true
-	Global.bard_guitar_room = Map.current_node
+	var price = 1 + Global.bard_heal_count
+	var shard_count = _get_shard_count()
+	if shard_count < price:
+		chat[2]["text"] = "You need %d shards for a healing song, but you only have %d." % [price, shard_count]
+		return 2
+
+	chat[1]["text"] = "I can restore you to full health for %d shard(s). You have %d. Shall I play?" % [price, shard_count]
+	return 1
+
+func heal_player() -> int:
+	if Global.health >= Global.MAX_HEALTH:
+		return 3
+
+	var price = 1 + Global.bard_heal_count
+	if not _spend_shards(price):
+		return offer_heal()
+
+	Global.health = Global.MAX_HEALTH
+	Global.bard_heal_count += 1
+	chat[4]["text"] = "Your health is restored. My next song will cost %d shard(s)." % (1 + Global.bard_heal_count)
 	return 4
 
-func check_guitar() -> int:
-	if Global.bard_guitar_returned:
-		return 6
-	if Global.bard_guitar_found:
-		Global.bard_guitar_returned = true
-		if "the_star" not in Global.completedCards:
-			Global.completedCards.append("the_star")
-		Global.shardLibrary.erase("the_star")
-		Global.lostShards.erase("the_star")
-		return 6
-	return 7
+func _get_shard_count() -> int:
+	var total = 0
+	for card_name in Global.foundShards:
+		total += Global.foundShards[card_name].size()
+	return total
+
+func _spend_shards(amount: int) -> bool:
+	if _get_shard_count() < amount:
+		return false
+
+	var remaining = amount
+	for card_name in Global.foundShards.keys():
+		var card_shards: Array = Global.foundShards[card_name]
+		while remaining > 0 and not card_shards.is_empty():
+			card_shards.pop_back()
+			remaining -= 1
+		if card_shards.is_empty():
+			Global.foundShards.erase(card_name)
+		if remaining == 0:
+			return true
+	return false
