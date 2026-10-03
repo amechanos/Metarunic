@@ -1,10 +1,11 @@
 extends Node2D
 
+const PICKUP_FONT = preload("res://ui/fonts/Silkscreen-Regular.ttf")
+
 @onready var tilemap = $TileMapLayer
 @onready var Player = $player
 @onready var HP = $Camera/UI/Health/Value
 @onready var counter = $Camera/UI/Shards/Value
-@onready var list = $Camera/UI/found
 @onready var camera = $Camera
 @onready var bg = $Camera/UI/Background
 
@@ -29,7 +30,7 @@ var fade: float = Global.fade_duration
 var found: int = 0
 
 var is_travelling: bool = false
-var shards = 0
+var shards_amt = 0
 
 const TILE = {
 	# Input Tiles
@@ -102,7 +103,8 @@ func create_board(w: int, h: int, shards: int) -> Array:
 		var npc = npc_scene.instantiate()
 		npc.dir = fetch_dir(n_pos)
 		
-		npc.data = load("res://npcs/resources/" + Map.npc_pool.pop_back())
+		var npc_resource = "wizard.tres" if Map.current_node == 1 else Map.npc_pool.pop_back()
+		npc.data = load("res://npcs/resources/" + npc_resource)
 		
 		npc.spawn_tile = n_pos
 		print("Position set to: ", n_pos)
@@ -214,9 +216,9 @@ func _process_edge_tile(edge_positions: Array[Vector2i], direction: String):
 		print_debug("Warning: No valid edge tiles available for direction: ", direction)
 
 func _generate_new_board() -> void:
-	counter.text = str(shards)
+	counter.text = str(shards_amt)
 	HP.text = str(Global.health)
-	Global.grid = create_board(width, height, shards)
+	Global.grid = create_board(width, height, shards_amt)
 
 func _restore_board(board: int) -> void:
 	var saved = Map.map[board]
@@ -266,14 +268,13 @@ func _restore_board(board: int) -> void:
 		
 		npc_container.add_child(npc)
 
-	counter.text = str(saved["found"]) + "/" + str(shards)
+	counter.text = str(saved["found"]) + "/" + str(shards_amt)
 	HP.text = str(Global.health)
 
 func updateShards() -> void:
 	var text = " "
 	for key in Global.foundShards:
 		text += str(key) + "\n"
-		list.text = text
 
 func get_nearby_bombs(grid: Array, tile: Vector2i):
 	if is_travelling:
@@ -388,12 +389,14 @@ func check_shard(tile: Vector2):
 	if cell_value == 1:
 		tilemap.set_cell(tile_i, 0, TILE["CORRECT"])
 		found += 1
-		counter.text = str(found) + "/" + str(shards)
+		counter.text = str(found) + "/" + str(shards_amt)
 
 		var keys = Global.lostShards.keys()
 		var random_key = keys[randi_range(0, keys.size() - 1)]
 		var key_shards = Global.lostShards.get(random_key)
 		var shard = key_shards[randi_range(0, key_shards.size() - 1)]
+
+		_animate_shard_pickup(shard, random_key)
 
 		key_shards.erase(shard)
 		if key_shards.is_empty():
@@ -417,6 +420,65 @@ func check_shard(tile: Vector2):
 	Map.map[Map.current_node]["found"] = found
 	
 	print(Global.foundShards)
+
+func _animate_shard_pickup(shard: shardData, fallback_card: String) -> void:
+	var card_name: String = shard.card.strip_edges()
+	if card_name.is_empty():
+		card_name = fallback_card
+
+	var overlay := CanvasLayer.new()
+	overlay.layer = 10
+	add_child(overlay)
+
+	var pickup := Node2D.new()
+	pickup.position = get_viewport_rect().size / 2.0
+	overlay.add_child(pickup)
+
+	var fragment := Polygon2D.new()
+	fragment.polygon = shard.polygon
+	fragment.uv = shard.uv
+	fragment.texture = load("res://tarot/cards/" + card_name + ".png")
+	pickup.add_child(fragment)
+
+	var shard_extent = max(shard.piece_size.x, shard.piece_size.y)
+	var target_scale = Global.TILE_SIZE * 2.4 / shard_extent
+	target_scale = min(target_scale, 2.5)
+	var viewport_size := get_viewport_rect().size
+
+	var title := Label.new()
+	title.text = "Shard found: " + card_name.replace("_", " ").capitalize()
+	var title_width := minf(viewport_size.x - 64.0, 720.0)
+	title.size = Vector2(title_width, 52)
+	title.position = Vector2(
+		(viewport_size.x - title_width) / 2.0,
+		viewport_size.y / 2.0 + shard_extent * target_scale / 2.0 + 24.0
+	)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.add_theme_font_override("font", PICKUP_FONT)
+	title.add_theme_font_size_override("font_size", 36)
+	title.add_theme_color_override("font_color", Color.WHITE)
+	title.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 1.0))
+	title.add_theme_constant_override("outline_size", 5)
+	overlay.add_child(title)
+
+	pickup.scale = Vector2.ZERO
+	fragment.modulate.a = 0.0
+	title.modulate.a = 0.0
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(pickup, "scale", Vector2.ONE * target_scale * 1.12, 0.3) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(fragment, "modulate:a", 1.0, 1)
+	tween.tween_property(pickup, "position:y", pickup.position.y - 24.0, 0.65)
+	tween.tween_property(title, "position:y", title.position.y - 20.0, 0.65)
+	tween.tween_property(title, "modulate:a", 1.0, 1)
+	tween.tween_property(title, "modulate:a", 0.0, 0.25).set_delay(2)
+	tween.chain().tween_property(pickup, "scale", Vector2.ZERO, 0.3) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(fragment, "modulate:a", 0.0, 0.3)
+	tween.finished.connect(overlay.queue_free)
 
 ### Helpers
 func lose() -> void:
@@ -477,7 +539,7 @@ func travel_to(tile: Vector2i, direction: String) -> void:
 	get_tree().reload_current_scene()
 
 func _ready() -> void:
-	shards = Map.get_room_data("shards")
+	shards_amt = Map.get_room_data("shards")
 	updateShards()
 	bg.generate_background(biome, width * 20, height * 10)
 	center_camera()

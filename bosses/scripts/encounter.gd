@@ -70,7 +70,7 @@ func giveCard(card: String, reversed: bool):
 
 func _on_leave_pressed() -> void:
 	Global.current_beast = null
-	Pos.return_from(affected, "res://minesweeper/board.tscn")
+	Pos.return_from(affected, "res://game.tscn")
 
 func _on_next_pressed() -> void:
 	if index >= dialogue.size():

@@ -66,7 +66,7 @@ func set_refs(rooms):
 	
 	# Setup
 	var remaining_beasts = 22
-	var remaining_npcs = 1
+	var remaining_npcs = npc_pool.size()
 	
 	for i in range(1, rooms):
 		var rooms_left = (rooms - i) + 1
@@ -87,14 +87,15 @@ func set_refs(rooms):
 		# --- NPCs SCATTERING ---
 		var npc_amount = 0
 		
-		# 1. Check chance for a pack to spawn
-		if remaining_npcs > 0 and randf() < 1:
-			var dynamic_beast_avg = float(remaining_npcs) / rooms_left
+		if i == 1:
 			npc_amount = 1
+		elif remaining_npcs > 0:
+			var npc_chance = float(remaining_npcs) / rooms_left
+			if randf() < npc_chance:
+				npc_amount = 1
 		
-		# 2. Late-game guardrail to bleed the npc pool
-		if rooms_left <= 3 and remaining_npcs > 0 and npc_amount == 0:
-			npc_amount = randi_range(1, remaining_npcs)
+		if i > 1 and remaining_npcs >= rooms_left:
+			npc_amount = 1
 			
 		# 3. Physically pick coordinates from the leftover tiles
 		if npc_amount > 0 and available_tiles.size() > 0:
@@ -106,14 +107,12 @@ func set_refs(rooms):
 		# --- BEASTS SCATTERING ---
 		var beast_amount = 0
 		
-		# 1. Check chance for a pack to spawn
-		if remaining_beasts > 0 and randf() < 0.1:
-			var dynamic_beast_avg = float(remaining_beasts) / rooms_left
+		if i > 1 and remaining_beasts > 0 and randf() < 0.1:
 			beast_amount = 1
 		
-		# 2. Late-game guardrail to bleed the beast pool
-		if rooms_left <= 3 and remaining_beasts > 0 and beast_amount == 0:
-			beast_amount = randi_range(1, remaining_beasts)
+		# Start filling every remaining room once there are as many beasts as rooms left.
+		if i > 1 and remaining_beasts >= rooms_left:
+			beast_amount = 1
 			
 		# 3. Physically pick coordinates from the leftover tiles
 		if beast_amount > 0 and available_tiles.size() > 0:
@@ -141,18 +140,23 @@ func set_refs(rooms):
 	# Last room consumes all remaining shards and beasts
 	var last_node_key = "node-" + str(rooms)
 	var final_tiles = get_valid_positions(8, 6)
+	var final_npc_positions: Array[Vector2i] = []
 	var final_beast_positions: Array[Vector2i] = []
 	var occupied_interaction_tiles = []
 	
+	if remaining_npcs > 0 and final_tiles.size() > 0:
+		var final_npc_pos = _take_spawn_position(final_tiles, occupied_interaction_tiles, 8, 6)
+		if final_npc_pos != Vector2i(-1, -1):
+			final_npc_positions.append(final_npc_pos)
+
 	if remaining_beasts > 0 and final_tiles.size() > 0:
-		for b in range(remaining_beasts):
-			var random_pos = _take_spawn_position(final_tiles, occupied_interaction_tiles, 8, 6)
-			if random_pos == Vector2i(-1, -1): break
-			final_beast_positions.append(random_pos)
+		var final_beast_pos = _take_spawn_position(final_tiles, occupied_interaction_tiles, 8, 6)
+		if final_beast_pos != Vector2i(-1, -1):
+			final_beast_positions.append(final_beast_pos)
 
 	spawn_ref[last_node_key] = {
 		"beasts": final_beast_positions, 
-		"npcs": [] as Array[Vector2i], 
+		"npcs": final_npc_positions,
 		"shards": remaining
 	}
 
@@ -161,6 +165,7 @@ func _ready() -> void:
 	#print("Created game!\n", spawn_ref) 
 	
 	npc_pool.shuffle()
+	npc_pool.erase("wizard.tres")
 	beast_pool.shuffle()
 		
 # --- Union-Find for spanning tree ---

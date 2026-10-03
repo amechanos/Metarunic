@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://p70digq1jh43" path="res://ui/pouch.png" id="5_w7byt"]
 [ext_resource type="FontFile" uid="uid://dvyk2goxxk460" path="res://ui/fonts/Silkscreen-Bold.ttf" id="6_7y6v6"]
 [ext_resource type="Script" uid="uid://dkgjxifqbtlq1" path="res://map/bg.gd" id="7_bgscript"]
-[ext_resource type="AudioStream" uid="uid://1e8giay2kjkm" path="res://sound/soundtrack_game.wav" id="10_0owc4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7y6v6"]
 texture = ExtResource("2_w7byt")
@@ -524,14 +523,14 @@ tile_set = SubResource("TileSet_3752g")
 script = ExtResource("7_bgscript")
 
 [node name="Health" type="Label" parent="Camera/UI" unique_id=285953966]
-offset_left = 808.0
-offset_top = 944.0
-offset_right = 1112.0
-offset_bottom = 1008.0
+offset_left = 1578.0
+offset_top = 976.0
+offset_right = 1882.0
+offset_bottom = 1040.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
 theme_override_fonts/font = ExtResource("4_7y6v6")
 theme_override_font_sizes/font_size = 36
-text = "Health:"
+text = "Mental:"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
@@ -550,10 +549,10 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Shards" type="Label" parent="Camera/UI" unique_id=1709207756]
-offset_left = 784.0
-offset_top = 64.0
-offset_right = 1232.0
-offset_bottom = 128.0
+offset_left = 32.0
+offset_top = 976.0
+offset_right = 480.0
+offset_bottom = 1040.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
 theme_override_fonts/font = ExtResource("4_7y6v6")
 theme_override_font_sizes/font_size = 36
@@ -572,23 +571,11 @@ theme_override_font_sizes/font_size = 36
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="found" type="Label" parent="Camera/UI" unique_id=1124560264]
-anchors_preset = -1
-anchor_left = 0.06666667
-anchor_right = 0.06666667
-anchor_bottom = 0.2
-offset_left = 1536.0
-offset_top = 384.0
-offset_right = 1856.0
-offset_bottom = 808.0
-theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
-metadata/_edit_use_anchors_ = true
-
 [node name="Button" type="Button" parent="Camera/UI" unique_id=2063193267]
 texture_filter = 1
-offset_left = 1664.0
+offset_left = 1696.0
 offset_top = 24.0
-offset_right = 1856.0
+offset_right = 1888.0
 offset_bottom = 308.0
 icon = ExtResource("5_w7byt")
 flat = true
@@ -596,16 +583,18 @@ autowrap_mode = 3
 expand_icon = true
 
 [node name="Label" type="Label" parent="Camera/UI/Button" unique_id=273519081]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 0
-offset_left = -8.0
+offset_left = -16.0
 offset_top = 256.0
-offset_right = 195.0
-offset_bottom = 280.0
+offset_right = 187.0
+offset_bottom = 321.0
 theme_override_colors/font_color = Color(0.102253355, 0.027486322, 0.016620742, 1)
 theme_override_fonts/font = ExtResource("6_7y6v6")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 24
 text = "Open Tarot Bag"
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=397242804]
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -617,10 +606,6 @@ z_index = 6
 [node name="Npcs" type="Node2D" parent="." unique_id=1063679459]
 
 [node name="Beasts" type="Node2D" parent="." unique_id=33514196]
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="." unique_id=1854969542]
-stream = ExtResource("10_0owc4")
-autoplay = true
 
 [connection signal="pressed" from="Camera/UI/Button" to="." method="_on_button_pressed"]
 [connection signal="clicked" from="player" to="." method="_on_player_clicked"]

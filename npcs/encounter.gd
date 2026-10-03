@@ -27,6 +27,8 @@ func _setup_npc_visuals() -> void:
 # Call this function to initialize the dialogue when the interaction starts
 func update_dialogue():
 	var current_node = chat[index]
+	var choice_count = current_node["choices"].size()
+	choices.columns = 2 if choice_count > 4 else 1
 
 	for item in choices.get_children():
 		item.queue_free() 
@@ -37,7 +39,9 @@ func update_dialogue():
 		var button = Button.new()
 		button.text = choice_text
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size.x = 250
+		button.custom_minimum_size = Vector2(0, 48)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 20)
 		
 		button.pressed.connect(func(): _on_choice_selected(destination))
 		
@@ -60,4 +64,4 @@ func _on_choice_selected(destination):
 
 func leave() -> void:
 	Global.current_npc = null
-	Pos.return_from(false, "res://minesweeper/board.tscn")
+	Pos.return_from(false, "res://game.tscn")

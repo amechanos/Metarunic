@@ -288,4 +288,4 @@ func _check_completion() -> void:
 
 func _on_button_pressed() -> void:
 	save_state()
-	get_tree().change_scene_to_file("res://minesweeper/board.tscn")
+	get_tree().change_scene_to_file("res://game.tscn")
