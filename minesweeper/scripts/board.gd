@@ -225,20 +225,27 @@ func _restore_board(board: int) -> void:
 	var nav = saved["nav_tiles"]
 	
 	Global.grid = saved["grid"]
-	
+	found = saved.get("found", 0)
+	flagged_tiles.clear()
+	for tile in saved.get("flagged_tiles", []):
+		flagged_tiles[tile] = true
+	revealed_tiles = saved.get("revealed_tiles", {}).duplicate()
+	nav_tiles = nav.duplicate()
+	restricted_tiles = saved.get("restricted_tiles", []).duplicate()
+	beasts = saved.get("beasts", []).duplicate(true)
+	npcs = saved.get("npcs", []).duplicate(true)
+
 	for i in range(width):
 		for j in range(height):
 			tilemap.set_cell(Vector2i(i, j), 0, TILE["BLANK"])
+
+	for tile in flagged_tiles:
+		tilemap.set_cell(tile, 0, TILE["FLAG"])
 
 	for tile in nav.keys():
 		var direction_string = nav[tile]
 		var dir_vector = TILE[direction_string]
 		tilemap.set_cell(tile, 0, dir_vector)
-		nav_tiles[tile] = direction_string
-
-	for tile in saved["flagged_tiles"]:
-		flagged_tiles[tile] = true
-		tilemap.set_cell(tile, 0, TILE["FLAG"])
 
 	for tile in saved["revealed_tiles"]:
 		var cell_value = saved["revealed_tiles"][tile]
@@ -270,6 +277,23 @@ func _restore_board(board: int) -> void:
 
 	counter.text = str(saved["found"]) + "/" + str(shards_amt)
 	HP.text = str(Global.health)
+
+func capture_current_room() -> void:
+	if not Map.map.has(Map.current_node):
+		return
+	var room: Dictionary = Map.map[Map.current_node]
+	room["width"] = width
+	room["height"] = height
+	room["shards"] = shards_amt
+	room["found"] = found
+	room["flagged_tiles"] = flagged_tiles.keys()
+	room["revealed_tiles"] = revealed_tiles.duplicate()
+	room["restricted_tiles"] = restricted_tiles.duplicate()
+	room["nav_tiles"] = nav_tiles.duplicate()
+	room["grid"] = Global.grid.duplicate(true)
+	room["beasts"] = beasts.duplicate(true)
+	room["npcs"] = npcs.duplicate(true)
+	Map.map[Map.current_node] = room
 
 func updateShards() -> void:
 	var text = " "
@@ -356,6 +380,7 @@ func _on_player_flagged(tile: Vector2) -> void:
 		tilemap.set_cell(tile_i, 0, TILE["FLAG"])
 
 	Map.map[Map.current_node]["flagged_tiles"] = flagged_tiles.keys()
+	Global.save_game()
 
 func on_reveal(tile: Vector2):
 	var tile_i = Vector2i(tile)
@@ -420,6 +445,7 @@ func check_shard(tile: Vector2):
 	Map.map[Map.current_node]["found"] = found
 	
 	print(Global.foundShards)
+	Global.save_game()
 
 func _animate_shard_pickup(shard: shardData, fallback_card: String) -> void:
 	var card_name: String = shard.card.strip_edges()
@@ -502,13 +528,11 @@ func travel_to(tile: Vector2i, direction: String) -> void:
 		return 
 		
 	is_travelling = true
-	
-	Map.map[Map.current_node]["flagged_tiles"] = flagged_tiles.keys()
-	Map.map[Map.current_node]["revealed_tiles"] = revealed_tiles.duplicate()
-	Map.map[Map.current_node]["nav_tiles"] = nav_tiles.duplicate()
-	Map.map[Map.current_node]["found"] = found
-	Map.map[Map.current_node]["npc"] = npcs
-	Map.map[Map.current_node]["beasts"] = beasts
+	capture_current_room()
+	if not Global.save_game():
+		push_error("Autosave failed before travelling from room %d: %s" % [Map.current_node, Global.last_save_error])
+		is_travelling = false
+		return
 	
 	var grid_width = Map.map_width 
 
@@ -527,6 +551,11 @@ func travel_to(tile: Vector2i, direction: String) -> void:
 			return
 	
 	Pos.temp_i = Pos.on_new_board(tile, direction, height, width)
+	Global.pending_player_position = Vector2(
+		Pos.temp_i.x * Player.STEP + Player.STEP / 2.0,
+		Pos.temp_i.y * Player.STEP + Player.STEP / 2.0
+	)
+	Global.has_pending_player_position = true
 	print("Player travelled from tile: ", tile, " to tile: ", Pos.temp_i)
 	
 	Global.grid = []
@@ -572,6 +601,11 @@ func _ready() -> void:
 		print(item.data.id, " - Reference: ", item.adjacent_tile)
 		
 	#print(Map.map)
+	if Global.has_pending_player_position:
+		Player.global_position = Global.pending_player_position
+		Global.has_pending_player_position = false
+	if not Global.save_game():
+		push_error("Autosave failed after entering room %d: %s" % [Map.current_node, Global.last_save_error])
 
 func _on_button_pressed() -> void:
 	Pos.move(Player.global_position, "res://jigsaw/assembly.tscn")

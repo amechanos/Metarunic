@@ -167,6 +167,23 @@ func _ready() -> void:
 	npc_pool.shuffle()
 	npc_pool.erase("wizard.tres")
 	beast_pool.shuffle()
+
+func reset_world() -> void:
+	current_node = 1
+	map.clear()
+	map_grid.clear()
+	map_nodes_array.clear()
+	discovered_nodes.clear()
+	spawn_ref.clear()
+	map_width = 9
+	map_height = 8
+	beast_pool = Array(DirAccess.get_files_at("res://bosses/beasts/"))
+	npc_pool = Array(DirAccess.get_files_at("res://npcs/resources/"))
+	set_refs(map_width * map_height)
+	npc_pool.shuffle()
+	npc_pool.erase("wizard.tres")
+	beast_pool.shuffle()
+	generate(map_width, map_height)
 		
 # --- Union-Find for spanning tree ---
 class UnionFind:

@@ -5,9 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cjg6qiw5qlyp0" path="res://minesweeper/assets/Tilemap.png" id="2_nnt0t"]
 [ext_resource type="Texture2D" uid="uid://btqmt4vm2gbui" path="res://bgs/TilesetFloor.png" id="2_w7byt"]
 [ext_resource type="PackedScene" uid="uid://3ndtme5qmak1" path="res://minesweeper/player.tscn" id="3_nnt0t"]
-[ext_resource type="FontFile" uid="uid://b1uuydo35ri02" path="res://ui/fonts/Silkscreen-Regular.ttf" id="4_7y6v6"]
+[ext_resource type="FontFile" uid="uid://btjgd6i5ssgmn" path="res://ui/fonts/MartelSans-Black.ttf" id="5_7y6v6"]
 [ext_resource type="Texture2D" uid="uid://p70digq1jh43" path="res://ui/pouch.png" id="5_w7byt"]
-[ext_resource type="FontFile" uid="uid://dvyk2goxxk460" path="res://ui/fonts/Silkscreen-Bold.ttf" id="6_7y6v6"]
 [ext_resource type="Script" uid="uid://dkgjxifqbtlq1" path="res://map/bg.gd" id="7_bgscript"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7y6v6"]
@@ -528,22 +527,21 @@ offset_top = 976.0
 offset_right = 1882.0
 offset_bottom = 1040.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
-theme_override_fonts/font = ExtResource("4_7y6v6")
+theme_override_fonts/font = ExtResource("5_7y6v6")
 theme_override_font_sizes/font_size = 36
 text = "Mental:"
 vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Value" type="Label" parent="Camera/UI/Health" unique_id=682214016]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.05263158
+anchor_left = 0.20394737
 anchor_right = 0.05263158
 offset_left = 152.0
 offset_right = 304.0
 offset_bottom = 64.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
-theme_override_fonts/font = ExtResource("4_7y6v6")
+theme_override_fonts/font = ExtResource("5_7y6v6")
 theme_override_font_sizes/font_size = 36
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -554,11 +552,10 @@ offset_top = 976.0
 offset_right = 480.0
 offset_bottom = 1040.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
-theme_override_fonts/font = ExtResource("4_7y6v6")
+theme_override_fonts/font = ExtResource("5_7y6v6")
 theme_override_font_sizes/font_size = 36
 text = "Shards HERE:"
 vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Value" type="Label" parent="Camera/UI/Shards" unique_id=235715844]
 layout_mode = 0
@@ -566,7 +563,7 @@ offset_left = 352.0
 offset_right = 480.0
 offset_bottom = 64.0
 theme_override_colors/font_color = Color(0.101960786, 0.02745098, 0.015686275, 1)
-theme_override_fonts/font = ExtResource("4_7y6v6")
+theme_override_fonts/font = ExtResource("5_7y6v6")
 theme_override_font_sizes/font_size = 36
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -590,7 +587,7 @@ offset_top = 256.0
 offset_right = 187.0
 offset_bottom = 321.0
 theme_override_colors/font_color = Color(0.102253355, 0.027486322, 0.016620742, 1)
-theme_override_fonts/font = ExtResource("6_7y6v6")
+theme_override_fonts/font = ExtResource("5_7y6v6")
 theme_override_font_sizes/font_size = 24
 text = "Open Tarot Bag"
 horizontal_alignment = 1
