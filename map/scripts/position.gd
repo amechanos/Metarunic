@@ -11,8 +11,9 @@ var entry_direction: String = ""
 func move(coords: Vector2, destination: String, spawn_tile: Vector2i = Vector2i(-1, -1)):
 	temp = coords
 	return_spawn_tile = spawn_tile
-	get_tree().change_scene_to_file(destination)
 	from_ui = true
+	Global.save_game()
+	get_tree().change_scene_to_file(destination)
 
 func set_player(step, player) -> void:
 	if from_ui:
@@ -58,6 +59,7 @@ func return_from(affected: bool, destination: String):
 		return_spawn_tile = Vector2i(-1, -1)
 	
 	print("Returning player to: ", temp)
+	Global.save_game()
 	get_tree().change_scene_to_file(destination)
 
 func _tile_from_position(position: Vector2) -> Vector2i:

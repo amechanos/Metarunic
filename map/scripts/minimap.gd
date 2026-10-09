@@ -3,8 +3,8 @@ extends Node2D
 
 @export var cell_size: int = 48
 @export var wall_thickness: float = 6
-@export var room_color: Color = Color(0.6, 0.6, 0.6, 1.0)
-@export var wall_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var room_color: Color = Color(1.0, 1.0, 1.0, 0.5)
+@export var wall_color: Color = Color(0.15, 0.15, 0.15, 1.0)
 
 var current_node_index: int = 1
 

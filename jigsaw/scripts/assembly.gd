@@ -103,6 +103,10 @@ func _get_texture_for_card(card_name: String) -> Texture2D:
 # State persistence
 # ------------------------------------------------------------------
 func save_state() -> void:
+	capture_state()
+	Global.save_game()
+
+func capture_state() -> void:
 	var snapshot: Array = []
 	for piece in _pieces:
 		# Find which group this piece belongs to
@@ -288,4 +292,4 @@ func _check_completion() -> void:
 
 func _on_button_pressed() -> void:
 	save_state()
-	get_tree().change_scene_to_file("res://minesweeper/board.tscn")
+	get_tree().change_scene_to_file("res://game.tscn")

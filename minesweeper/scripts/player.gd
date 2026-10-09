@@ -58,6 +58,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_within_bounds(target_pos):
 			stepped.emit(get_tile(position))
 			position = target_pos
+			Global.save_game()
 
 func is_within_bounds(pos: Vector2) -> bool:
 	return pos.x >= MIN_LIMIT and pos.x <= MAX_X and \

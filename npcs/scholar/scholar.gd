@@ -1,31 +1,46 @@
 extends Node
 class_name scholar
 
-var upgrade_req = 3
-var has_book = false
-
 var chat = [
-	{"text": "Good day traveller, what brings you here?", "choices": {"Why did you choose me as a ritualist?": 1, "Who are you?": find_book, "Goodbye": 9}}, #0
-	{"text": "You have shown promise with an architect's mind. Precise, delibrate actions have made me choose you. Don't fail me.", "choices": {"Okay.": 0}},
-	{"text": "My name is Artemedias, the greatest scholar in Teranilus. What would you like to know about?", "choices": {"What happened to the ritualist before me?": 4, "Why do we bother performing these rituals?": 5, "Goodbye.": 9}},
-	{"text": "This book? It's an important book that informs me of calamities and of the next ritual. My findings are all collected in here.", "choices": {"That would benefit me for my journey.": 6, "That's really cool...": 2}},
-	{"text": "The previous ritualist did his job. He protected Teranilus again, keeping peace in the world. I hope you make the right decisions boy, don't make the world hate you.", "choices": {"Okay.": 2} },
-	{"text": "Teranilus was once governed by beasts, ruling our world. When we discovered magic, we were able to turn them into statues, allowing humanity to thrive. But nothing is permanent. The magic slowly wore off, so every 50 years, a new ritualist is chosen to help keep the beasts asleep.", "choices": {"Okay.": 2} },
-	{"text": "You want my book? Prove your worth. Reform 3 cards and I'll give it to you.", "choices": {"I've done that.": check_cards, "Okay.": 0}},
-	{"text": "Very well. Use it wisely.", "choices": {"Okay.": 0}},
-	{"text": "You have not done what I've asked. Come back once you've fixed three cards.", "choices": {"Okay.": 0}},
-	{"text": "Goodbye.", "choices": {}},
+	{"text": "Good day, ritualist. I am Artemedias, scholar of Teranilus. Ask what you wish to know of our history.", "choices": {
+		"Who chose me, and why?": 1,
+		"What were the beasts?": 2,
+		"What are the Arcana cards?": 3,
+		"Why must the ritual be repeated?": 4,
+		"What happened to the last ritualist?": 5,
+		"Tell me about your book.": 6,
+		"Goodbye.": 7
+	}},
+	{"text": "The beasts chose you. They choose humans at random to become the ritualist to test humanity's worth.", "choices": {
+		"What were the beasts?": 2,
+		"Why must the ritual be repeated?": 4,
+		"Back.": 0
+	}},
+	{"text": "Long before Teranilus was settled by humankind, the Arcana and their beasts held dominion over these lands. The beasts were legendary, capable of performing actions beyond the human mind could imagine. Enchanted by their masters, they became humanity's greatest creation and also fear if uncontrolled.", "choices": {
+		"What are the Arcana?": 3,
+		"Why must the ritual be repeated?": 4,
+		"What happened to the last ritualist?": 5,
+		"Back.": 0
+	}},
+	{"text": "The 22 Major Arcana are the beasts' masters. Each is bound to a beast's spirit to guide their respective beast. Before their tragic deaths, they manifested their souls into cards before scattering them into the world, making them immortal as long as they are reformed.", "choices": {
+		"Why must the ritual be repeated?": 4,
+		"What were the beasts?": 2,
+		"Back.": 0
+	}},
+	{"text": "The beasts sleep, awaiting for their commands from their masters, expecting an answer every 100 years. They need someone who can reform their masters to reassure humanity's worth, otherwise they will cause chaos upon us. Of course, the beasts wish our species to not descend in intelligence.", "choices": {
+		"What are the Arcana cards?": 3,
+		"What happened to the last ritualist?": 5,
+		"Back.": 0
+	}},
+	{"text": "The previous ritualist completed the work and kept the beasts asleep. Now the seal is weakening again, and the duty has passed to you. I hope you will make wise choices.", "choices": {
+		"Why must the ritual be repeated?": 4,
+		"Who chose me, and why?": 1,
+		"Back.": 0
+	}},
+	{"text": "My book gathers the histories and observations I have found about the beasts, the Arcana, and the rituals. It is a record of what we know, not a prophecy; some details have been lost to time.", "choices": {
+		"What were the beasts?": 2,
+		"What are the Arcana cards?": 3,
+		"Back.": 0
+	}},
+	{"text": "Go carefully, ritualist. History is useful only if we learn from it.", "choices": {}}
 ]
-
-# --- Custom NPC Functions ---
-
-func find_book() -> int:
-	if not has_book:
-		chat[2]["choices"]["What is that book?"] = 3
-	return 2
-	
-func check_cards() -> int:
-	if Global.completedCards.size() >= 3:
-		return 7
-	else:
-		return 8
