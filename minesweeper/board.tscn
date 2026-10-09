@@ -535,7 +535,7 @@ vertical_alignment = 1
 [node name="Value" type="Label" parent="Camera/UI/Health" unique_id=682214016]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.20394737
+anchor_left = 0.05263158
 anchor_right = 0.05263158
 offset_left = 152.0
 offset_right = 304.0
