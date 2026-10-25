@@ -9,6 +9,7 @@ var chat = [
 		"How do I find shards?": 2,
 		"How does mental work?": 3,
 		"How do I restore cards and face beasts?": 4,
+		"How do I finish the ritual?": 8,
 		"Why was I chosen?": 5,
 		"How many cards have I restored?": show_progress,
 		"Check my status.": show_status,
@@ -17,6 +18,7 @@ var chat = [
 	{"text": "Your goal is to recover the lost fragments of Arcana scattered across the world, then assemble them into the 22 cards. They are the masters of the sleeping beasts. Follow the marked exits to explore connected regions.", "choices": {
 		"How do I find shards?": 2,
 		"How do I restore cards and face beasts?": 4,
+		"How do I finish the ritual?": 8,
 		"How many cards have I restored?": show_progress,
 		"Check my status.": show_status,
 		"Back.": 0
@@ -27,12 +29,12 @@ var chat = [
 		"Check my status.": show_status,
 		"Back.": 0
 	}},
-	{"text": "A wrong reveal costs one mental. You have %d out of %d mental. If it reaches zero, your run ends. I've heard stories of a Bard travelling the world that may be able to restore your mental if you ever need it." % [Global.health, Global.MAX_HEALTH], "choices": {
+	{"text": "A wrong reveal costs one mental. You have %d out of %d mental, and %d of %d lives. Each time your mental reaches zero you lose a life and recover your full mental. Lose every life, and the beasts will lose faith in humanity. I've heard stories of a Bard travelling the world that may be able to restore your mental if you ever need it." % [Global.health, Global.MAX_HEALTH, Global.lives, Global.MAX_LIVES], "choices": {
 		"How do I find shards?": 2,
 		"Check my status.": show_status,
 		"Back.": 0
 	}},
-	{"text": "Open the Tarot Bag to arrange the shards into cards. Drag pieces together and rotate them with Right Mouse Button, R or E. Once a card is restored, you'll have to figure out which Arcana belongs to which beast based on its riddle.", "choices": {
+	{"text": "Open the Tarot Bag to arrange the shards into cards. Drag pieces together and rotate them with Right Mouse Button, R or E. Once a card is restored, you'll have to figure out which Arcana belongs to which beast based on its riddle. Offer the card to the beast's statue: upright, it lulls the beast back to sleep, but rotate the card first and offer it reversed, and the statue will shatter and set the beast free.", "choices": {
 		"What is my goal?": 1,
 		"How many cards have I restored?": show_progress,
 		"Check my status.": show_status,
@@ -48,7 +50,12 @@ var chat = [
 		"Check my status.": show_status,
 		"Back.": 0
 	}},
-	{"text": "Farewell, ritualist. Explore carefully, follow the clues, and bring the Arcana back together.", "choices": {}}
+	{"text": "Farewell, ritualist. Explore carefully, follow the clues, and bring the Arcana back together.", "choices": {}},
+	{"text": "The ritual ends only when all 22 beasts have been faced, whether you put them back to sleep or set them free. Then find the Philosopher, who wanders the world, and tell them you wish to finish the ritual. They will check that every beast has been faced. If even one remains, they will send you away. Once you finish, there is no turning back, and the world's fate will be decided by what you did to the beasts.", "choices": {
+		"What is my goal?": 1,
+		"Check my status.": show_status,
+		"Back.": 0
+	}}
 ]
 
 func show_progress() -> int:
@@ -78,9 +85,11 @@ func show_status() -> int:
 	for room in Map.discovered_nodes:
 		discovered_rooms[room] = true
 
-	chat[6]["text"] = "Your current status:\nMental: %d/%d\nCards restored: %d/%d\nShards collected: %d/%d\nBeasts awakened: %d/%d\nRooms explored: %d/%d" % [
+	chat[6]["text"] = "Your current status:\nMental: %d/%d\nLives: %d/%d\nCards restored: %d/%d\nShards collected: %d/%d\nBeasts faced: %d/%d\nRooms explored: %d/%d" % [
 		Global.health,
 		Global.MAX_HEALTH,
+		Global.lives,
+		Global.MAX_LIVES,
 		restored_cards.size(),
 		TOTAL_CARDS,
 		collected_shards,

@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://ufppi5pp8kqr"]
+
+[ext_resource type="Script" uid="uid://dayirlobe4ic6" path="res://ending.gd" id="1_ending"]
+[ext_resource type="FontFile" uid="uid://dvyk2goxxk460" path="res://ui/fonts/Silkscreen-Bold.ttf" id="2_title"]
+[ext_resource type="FontFile" uid="uid://xo0gbymvy8te" path="res://ui/fonts/MartelSans-Regular.ttf" id="3_body"]
+[ext_resource type="AudioStream" uid="uid://bta3krj8ihmvs" path="res://sound/text_animation.wav" id="4_4jooh"]
+
+[node name="ending" type="Control" unique_id=28310649]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ending")
+
+[node name="Background" type="ColorRect" parent="." unique_id=470381722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.02, 0.05, 1)
+
+[node name="Title" type="Label" parent="." unique_id=1506333813]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 96.0
+offset_right = 1760.0
+offset_bottom = 208.0
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Body" type="RichTextLabel" parent="." unique_id=729209793]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 230.0
+offset_right = 1600.0
+offset_bottom = 830.0
+theme_override_fonts/normal_font = ExtResource("3_body")
+theme_override_font_sizes/normal_font_size = 26
+bbcode_enabled = true
+
+[node name="Summary" type="Label" parent="." unique_id=154603882]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 848.0
+offset_right = 1360.0
+offset_bottom = 896.0
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuButton" type="Button" parent="." unique_id=1953238424]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 920.0
+offset_right = 1176.0
+offset_bottom = 1008.0
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 36
+text = "MAIN MENU"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1438927727]
+stream = ExtResource("4_4jooh")

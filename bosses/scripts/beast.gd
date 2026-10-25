@@ -8,5 +8,6 @@ class_name BeastData
 @export var upright_outcome: String = ""
 @export var reversed_outcome: String = ""
 @export var rejection_hint: String = ""
+@export_multiline() var release_ending: String = ""
 
 var is_beast = true

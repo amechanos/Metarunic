@@ -30,6 +30,7 @@ var fade: float = Global.fade_duration
 var found: int = 0
 
 var is_travelling: bool = false
+var lives_label: Label
 var shards_amt = 0
 
 const TILE = {
@@ -217,7 +218,7 @@ func _process_edge_tile(edge_positions: Array[Vector2i], direction: String):
 
 func _generate_new_board() -> void:
 	counter.text = str(shards_amt)
-	HP.text = str(Global.health)
+	_update_health_labels()
 	Global.grid = create_board(width, height, shards_amt)
 
 func _restore_board(board: int) -> void:
@@ -276,7 +277,7 @@ func _restore_board(board: int) -> void:
 		npc_container.add_child(npc)
 
 	counter.text = str(saved["found"]) + "/" + str(shards_amt)
-	HP.text = str(Global.health)
+	_update_health_labels()
 
 func capture_current_room() -> void:
 	if not Map.map.has(Map.current_node):
@@ -438,7 +439,7 @@ func check_shard(tile: Vector2):
 		if Global.health <= 0:
 			lose()
 
-	HP.text = str(Global.health)
+	_update_health_labels()
 
 	# Save tile state back to global map.
 	Map.map[Map.current_node]["revealed_tiles"] = revealed_tiles.duplicate()
@@ -508,7 +509,48 @@ func _animate_shard_pickup(shard: shardData, fallback_card: String) -> void:
 
 ### Helpers
 func lose() -> void:
-	get_tree().paused = true
+	if Global.lose_life():
+		Global.begin_ending("lost_faith")
+		return
+	_show_life_lost_notice()
+
+func _update_health_labels() -> void:
+	HP.text = str(Global.health)
+	if lives_label == null:
+		var health_label: Label = HP.get_parent()
+		lives_label = Label.new()
+		lives_label.position = health_label.position + Vector2(0, -56)
+		lives_label.size = health_label.size
+		lives_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lives_label.add_theme_font_override("font", health_label.get_theme_font("font"))
+		lives_label.add_theme_font_size_override("font_size", health_label.get_theme_font_size("font_size"))
+		lives_label.add_theme_color_override("font_color", health_label.get_theme_color("font_color"))
+		health_label.get_parent().add_child(lives_label)
+	lives_label.text = "Lives: %d / %d" % [Global.lives, Global.MAX_LIVES]
+
+func _show_life_lost_notice() -> void:
+	var overlay := CanvasLayer.new()
+	overlay.layer = 10
+	add_child(overlay)
+
+	var viewport_size := get_viewport_rect().size
+	var notice := Label.new()
+	notice.text = "Your mind gives out, but you steady yourself.\nLives remaining: %d" % Global.lives
+	notice.size = Vector2(minf(viewport_size.x - 64.0, 900.0), 120)
+	notice.position = Vector2((viewport_size.x - notice.size.x) / 2.0, viewport_size.y * 0.35)
+	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	notice.add_theme_font_override("font", PICKUP_FONT)
+	notice.add_theme_font_size_override("font_size", 36)
+	notice.add_theme_color_override("font_color", Color.WHITE)
+	notice.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 1.0))
+	notice.add_theme_constant_override("outline_size", 6)
+	overlay.add_child(notice)
+
+	var tween := create_tween()
+	tween.tween_interval(2.0)
+	tween.tween_property(notice, "modulate:a", 0.0, 0.6)
+	tween.finished.connect(overlay.queue_free)
 
 func _process(delta: float) -> void:
 	for tile in stepped_tiles.keys():
@@ -568,6 +610,7 @@ func travel_to(tile: Vector2i, direction: String) -> void:
 	get_tree().reload_current_scene()
 
 func _ready() -> void:
+	Global.play_game_music()
 	shards_amt = Map.get_room_data("shards")
 	updateShards()
 	bg.generate_background(biome, width * 20, height * 10)

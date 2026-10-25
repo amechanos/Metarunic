@@ -10,50 +10,31 @@ var chat = [
 	{"text": "Safe roads, traveller. Leave a little room in your day for an unexpected chorus.", "choices": {}}
 ]
 
+# The Bard only checks that you have collected enough shards; none are spent.
+func _required_shards() -> int:
+	return 1 + Global.bard_heal_count
+
 func offer_heal() -> int:
 	if Global.health >= Global.MAX_HEALTH:
 		return 3
 
-	var price = 1 + Global.bard_heal_count
-	var shard_count = _get_shard_count()
-	if shard_count < price:
-		chat[2]["text"] = "You need %d shards for a healing song, but you only have %d." % [price, shard_count]
+	var required: int = _required_shards()
+	var shard_count: int = Global.get_shard_count()
+	if shard_count < required:
+		chat[2]["text"] = "A healing song needs a traveller who has gathered at least %d shards, and you carry %d. Come back when you have found more." % [required, shard_count]
 		return 2
 
-	chat[1]["text"] = "I can restore you to full health for %d shard(s). You have %d. Shall I play?" % [price, shard_count]
+	chat[1]["text"] = "I can restore you to full health. You have gathered %d shards, and I ask for %d. Shall I play?" % [shard_count, required]
 	return 1
 
 func heal_player() -> int:
 	if Global.health >= Global.MAX_HEALTH:
 		return 3
 
-	var price = 1 + Global.bard_heal_count
-	if not _spend_shards(price):
+	if Global.get_shard_count() < _required_shards():
 		return offer_heal()
 
 	Global.health = Global.MAX_HEALTH
 	Global.bard_heal_count += 1
-	chat[4]["text"] = "Your health is restored. My next song will cost %d shard(s)." % (1 + Global.bard_heal_count)
+	chat[4]["text"] = "Your health is restored. My next song will need you to have gathered at least %d shards." % _required_shards()
 	return 4
-
-func _get_shard_count() -> int:
-	var total = 0
-	for card_name in Global.foundShards:
-		total += Global.foundShards[card_name].size()
-	return total
-
-func _spend_shards(amount: int) -> bool:
-	if _get_shard_count() < amount:
-		return false
-
-	var remaining = amount
-	for card_name in Global.foundShards.keys():
-		var card_shards: Array = Global.foundShards[card_name]
-		while remaining > 0 and not card_shards.is_empty():
-			card_shards.pop_back()
-			remaining -= 1
-		if card_shards.is_empty():
-			Global.foundShards.erase(card_name)
-		if remaining == 0:
-			return true
-	return false

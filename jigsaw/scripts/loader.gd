@@ -2,8 +2,8 @@ extends Node
 
 # ── Config ────────────────────────────────────────────────────────────────────
 const IMAGE_FOLDER = "res://tarot/cards/"
-const DEFAULT_ROWS = 4
-const DEFAULT_COLS = 6
+const DEFAULT_ROWS = 5
+const DEFAULT_COLS = 3
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 func load_shard_library() -> void:
@@ -35,8 +35,8 @@ func _process_image(path: String, filename: String) -> void:
 
 	var key = filename.get_basename()
 
-	var rows = 5
-	var cols = 3
+	var rows = DEFAULT_ROWS
+	var cols = DEFAULT_COLS
 
 	var cutter := JigsawCutter.new()
 	cutter.tab_size = min(

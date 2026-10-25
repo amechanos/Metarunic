@@ -100,17 +100,21 @@ func setup():
 		warning.visible = true
 		
 func giveCard(card: String, reversed: bool):
+	if affected:
+		return
 	next.visible = false
 	if card.to_lower() == active.correct_card:
 		textbox.text = active.upright_outcome if not reversed else active.reversed_outcome
 		affected = true
 		if active.id not in Global.defeated_beasts:
 			Global.defeated_beasts.append(active.id)
+		if reversed and active.id not in Global.released_beasts:
+			Global.released_beasts.append(active.id)
 	else:
 		textbox.text = active.rejection_hint
 		await get_tree().create_timer(5).timeout
 		if scene == get_tree().current_scene:
-			textbox.text = active.riddle_texts[Global.riddle_ref[active.id]]
+			textbox.text = active.riddle
 
 func _on_leave_pressed() -> void:
 	Global.current_beast = null

@@ -8,9 +8,15 @@ const DEFAULT_DIALOGUE_TEXT_SPEED := 20.0
 const MIN_DIALOGUE_TEXT_SPEED := 5.0
 const MAX_DIALOGUE_TEXT_SPEED := 60.0
 const PAUSE_MENU_SCRIPT = preload("res://ui/pause_menu.gd")
+const GAME_MUSIC = preload("res://sound/soundtrack_game.wav")
 
 const MAX_HEALTH := 10
+const MAX_LIVES := 3
+const TOTAL_BEASTS := 22
+const ENDING_SCENE := "res://ending.tscn"
 var health: int = MAX_HEALTH
+var lives: int = MAX_LIVES
+var ending_reached: String = ""
 var bard_heal_count: int = 0
 
 # Minesweeper Mode 
@@ -34,6 +40,19 @@ var foundShards: Dictionary = {}
 var completedCards: Array = ["the_fool", "wheel_of_fortune"]
 
 var music_player: AudioStreamPlayer
+
+# Lives on the autoload so it survives scene changes and board reloads without restarting.
+func play_game_music() -> void:
+	if music_player == null:
+		music_player = AudioStreamPlayer.new()
+		music_player.stream = GAME_MUSIC
+		add_child(music_player)
+	if not music_player.playing:
+		music_player.play()
+
+func stop_music() -> void:
+	if music_player != null:
+		music_player.stop()
 
 var saved_player_position := Vector2.ZERO
 var pending_player_position := Vector2.ZERO
@@ -63,6 +82,29 @@ func _input(event: InputEvent) -> void:
 var current_npc: NpcData = null
 var current_beast: BeastData = null
 var defeated_beasts: Array[String] = []
+var released_beasts: Array[String] = []
+
+func all_beasts_resolved() -> bool:
+	return defeated_beasts.size() >= TOTAL_BEASTS
+
+func get_shard_count() -> int:
+	var total := 0
+	for card_name in foundShards:
+		total += foundShards[card_name].size()
+	return total
+
+# Returns true when the last life was lost.
+func lose_life() -> bool:
+	lives = maxi(lives - 1, 0)
+	if lives <= 0:
+		return true
+	health = MAX_HEALTH
+	return false
+
+func begin_ending(kind: String) -> void:
+	ending_reached = kind
+	save_game()
+	get_tree().change_scene_to_file(ENDING_SCENE)
 
 func has_save_game() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
@@ -114,6 +156,9 @@ func _save_settings() -> void:
 
 func start_new_game() -> void:
 	health = MAX_HEALTH
+	lives = MAX_LIVES
+	ending_reached = ""
+	fade_duration = WIDTH
 	bard_heal_count = 0
 	found = 0
 	Loader.load_shard_library()
@@ -122,6 +167,7 @@ func start_new_game() -> void:
 	assemblyState.clear()
 	completedCards = ["the_fool", "wheel_of_fortune"]
 	defeated_beasts.clear()
+	released_beasts.clear()
 	current_npc = null
 	current_beast = null
 	grid.clear()
@@ -174,6 +220,9 @@ func save_game() -> bool:
 	var save_data := {
 		"version": SAVE_VERSION,
 		"health": health,
+		"lives": lives,
+		"ending_reached": ending_reached,
+		"fade_duration": fade_duration,
 		"bard_heal_count": bard_heal_count,
 		"found": found,
 		"found_shards": serialized_found_shards,
@@ -181,6 +230,7 @@ func save_game() -> bool:
 		"completed_cards": completedCards.duplicate(),
 		"assembly_state": assemblyState.duplicate(true),
 		"defeated_beasts": defeated_beasts.duplicate(),
+		"released_beasts": released_beasts.duplicate(),
 		"player_position": saved_player_position,
 		"map": {
 			"current_node": Map.current_node,
@@ -237,6 +287,9 @@ func load_game() -> bool:
 		return false
 
 	health = int(save_data["health"])
+	lives = int(save_data.get("lives", MAX_LIVES))
+	ending_reached = str(save_data.get("ending_reached", ""))
+	fade_duration = int(save_data.get("fade_duration", WIDTH))
 	bard_heal_count = int(save_data["bard_heal_count"])
 	found = int(save_data["found"])
 	foundShards = serialized_found_shards
@@ -244,6 +297,7 @@ func load_game() -> bool:
 	completedCards = save_data["completed_cards"].duplicate()
 	assemblyState = save_data["assembly_state"].duplicate(true)
 	defeated_beasts.assign(save_data["defeated_beasts"])
+	released_beasts.assign(save_data.get("released_beasts", []))
 	current_npc = null
 	current_beast = null
 
@@ -417,6 +471,8 @@ func _is_valid_save(save_data: Variant) -> bool:
 	if typeof(save_data["completed_cards"]) != TYPE_ARRAY or typeof(save_data["assembly_state"]) != TYPE_DICTIONARY:
 		return false
 	if typeof(save_data["defeated_beasts"]) != TYPE_ARRAY or typeof(save_data["player_position"]) != TYPE_VECTOR2:
+		return false
+	if save_data.has("released_beasts") and typeof(save_data["released_beasts"]) != TYPE_ARRAY:
 		return false
 	var map_data: Variant = save_data["map"]
 	if typeof(map_data) != TYPE_DICTIONARY:

@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 const OPTIONS_PANEL = preload("res://ui/options_panel.gd")
 
@@ -9,6 +9,7 @@ var new_game_confirmation: ConfirmationDialog
 var options_panel: Control
 
 func _ready() -> void:
+	Global.stop_music()
 	continue_button.disabled = not Global.has_save_game()
 	if continue_button.disabled:
 		status_label.text = "No saved game found."
@@ -54,7 +55,8 @@ func _on_options_closed() -> void:
 	options_panel = null
 
 func _change_to_game() -> void:
-	var error := get_tree().change_scene_to_file("res://game.tscn")
+	var destination: String = Global.ENDING_SCENE if Global.ending_reached != "" else "res://game.tscn"
+	var error := get_tree().change_scene_to_file(destination)
 	if error != OK:
 		status_label.text = "Could not open the game (error %d)." % error
 		push_error(status_label.text)

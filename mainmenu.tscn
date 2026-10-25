@@ -3,10 +3,13 @@
 [ext_resource type="FontFile" uid="uid://dvyk2goxxk460" path="res://ui/fonts/Silkscreen-Bold.ttf" id="1_cmhrf"]
 [ext_resource type="Script" uid="uid://35qlw70rppff" path="res://mainmenu.gd" id="2_mainmenu"]
 
-[node name="mainmenu" type="Node2D" unique_id=1083765111]
+[node name="mainmenu" type="Control" unique_id=294188675]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("2_mainmenu")
 
 [node name="Button" type="Button" parent="." unique_id=1663280256]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 464.0
 offset_right = 1192.0
@@ -16,6 +19,7 @@ theme_override_font_sizes/font_size = 48
 text = "CONTINUE"
 
 [node name="Button2" type="Button" parent="." unique_id=1610039423]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 576.0
 offset_right = 1192.0
@@ -25,6 +29,7 @@ theme_override_font_sizes/font_size = 48
 text = "NEW GAME"
 
 [node name="Button3" type="Button" parent="." unique_id=1781068265]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 688.0
 offset_right = 1192.0
@@ -34,6 +39,7 @@ theme_override_font_sizes/font_size = 48
 text = "QUIT"
 
 [node name="Options" type="Button" parent="." unique_id=374806989]
+layout_mode = 0
 offset_left = 768.0
 offset_top = 800.0
 offset_right = 1192.0
@@ -43,6 +49,7 @@ theme_override_font_sizes/font_size = 40
 text = "OPTIONS"
 
 [node name="Status" type="Label" parent="." unique_id=1952656935]
+layout_mode = 0
 offset_left = 560.0
 offset_top = 920.0
 offset_right = 1360.0
