@@ -3,20 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d1f51ufi7fu"
-path="res://.godot/imported/Temperance.png-b43495ae231ec60b351ff9f31d4f4d56.ctex"
+path="res://.godot/imported/temperance.png-d6ab34ef4bae77238e2335630826eb27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tarot/cards/Temperance.png"
-dest_files=["res://.godot/imported/Temperance.png-b43495ae231ec60b351ff9f31d4f4d56.ctex"]
+source_file="res://tarot/cards/temperance.png"
+dest_files=["res://.godot/imported/temperance.png-d6ab34ef4bae77238e2335630826eb27.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
+compress/high_quality_mode=0
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
