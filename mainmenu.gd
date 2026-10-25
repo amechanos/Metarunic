@@ -47,7 +47,7 @@ func _on_quit_pressed() -> void:
 func _open_options() -> void:
 	if options_panel:
 		return
-	options_panel = OPTIONS_PANEL.new()
+	options_panel = preload("res://ui/options.tscn").instantiate()
 	options_panel.closed.connect(_on_options_closed)
 	add_child(options_panel)
 
